@@ -1,0 +1,232 @@
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[twoside,11pt,a4paper,openright]{Thesis} % The default font size and one-sided printing (no margin offsets)[11pt, oneside]
+
+\graphicspath{{Pictures/}} % Specifies the directory where pictures are stored
+
+\usepackage[square, numbers, comma, sort&compress]{natbib} % Use the natbib reference package - read up on this to edit the reference style; if you want text (e.g. Smith et al., 2012) for the in-text references (instead of numbers), remove 'numbers' 
+\hypersetup{urlcolor=blue, colorlinks=true} % Colors hyperlinks in blue - change to black if annoying
+\title{\ttitle} % Defines the thesis title - don't touch this
+
+\begin{document}
+
+\frontmatter % Use roman page numbering style (i, ii, iii, iv...) for the pre-content pages
+
+\setstretch{1.3} % Line spacing of 1.3
+
+% Define the page headers using the FancyHdr package and set up for one-sided printing
+\fancyhead{} % Clears all page headers and footers
+\rhead{\thepage} % Sets the right side header to show the page number
+\lhead{} % Clears the left side page header
+
+\pagestyle{fancy} % Finally, use the "fancy" page style to implement the FancyHdr headers
+
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}} % New command to make the lines in the title page
+
+% PDF meta-data
+\hypersetup{pdftitle={\ttitle}}
+\hypersetup{pdfsubject=\subjectname}
+\hypersetup{pdfauthor=\authornames}
+\hypersetup{pdfkeywords=\keywordnames}
+
+%----------------------------------------------------------------------------------------
+%	TITLE PAGE
+%----------------------------------------------------------------------------------------
+
+\begin{titlepage}
+\begin{center}
+
+%\textsc{\LARGE \univname}\\[0.5cm] % University name
+\textsc{\LARGE Engineering Internship Report}\\[0.1cm]
+{\Large 03/10/2014  $\sim$  09/09/2014}\\[0.5cm] % Thesis type
+
+\HRule \\[0.4cm] % Horizontal line
+{\textbf{\huge  \ttitle}}\\[0cm] % Thesis title
+\HRule \\[2.5cm] % Horizontal line
+ 
+\begin{figure}[htbp]
+	\centering 
+		\includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{Figures/logo.png}
+\end{figure}
+\vspace{2.8cm}
+
+\emph{\LARGE Author:}\\[0.2cm]
+{\LARGE\authornames}\\[2.8cm]% Author name - remove the \href bracket to remove the link
+
+
+%\emph{\Large Industrial Supervisor:} \\
+%{\supname} \\% Supervisor name - remove the \href bracket to remove the link
+%{\supnamex} \\% Supervisor name - remove the \href bracket to remove the link
+%{\supnamexx}\\[0.5cm] % Supervisor name - remove the \href bracket to remove the link  
+
+%\emph{\Large Academic Supervisor:}\\
+%{\examname} \\[2cm]% Author name - remove the \href bracket to remove the link
+ 
+\large \textit{A report submitted in fulfilment of the requirements\\ for the degree of \degreename}\\[0.3cm] % University requirement text
+\textit{at}\\[0.4cm]
+{\Large \groupname}\\[2.5cm] % Research group name and department name
+ 
+{\large \today}\\[4cm] % Date
+%\includegraphics{Logo} % University/department logo - uncomment to place it
+ 
+\vfill
+\end{center}
+\cleardoublepage
+\end{titlepage}
+
+%----------------------------------------------------------------------------------------
+%	SUPERVISORS
+%----------------------------------------------------------------------------------------
+\setstretch{1.5} % Reset the line-spacing to 1.5 for body text (if it has changed)
+
+\supervisors{\addtocontents{toc}{\vspace{1em}} % Add a gap in the Contents, for aesthetics
+\vspace{1cm}
+
+\emph{\Large Industrial Supervisors:}\\[0.5cm]
+{\supname} \\% Supervisor name - remove the \href bracket to remove the link
+Ingénieur Chercheur, \ \ EDF R\&D/SINETICS/I23\\
+Tel : 01.47.65.36.77\qquad E-mail : \href{mailto:pierre.guerin@edf.fr}{pierre.guerin@edf.fr}\\[0.3cm]
+{\supnamex} \\% Supervisor name - remove the \href bracket to remove the link
+Chef de Projet,\qquad\quad \ EDF R\&D/SINETICS/I28\\
+Tel : 01.47.65.49.44\qquad E-mail : \href{mailto:andreas.schumm@edf.fr}{andreas.schumm@edf.fr}\\[0.3cm]
+{\supnamexx} \\% Supervisor name - remove the \href bracket to remove the link  
+Ingénieur Chercheur, \ \ EDF R\&D/SINETICS/I23\\
+Tel : 01.47.65.33.47\qquad E-mail : \href{mailto:francois.fevotte@edf.fr}{francois.fevotte@edf.fr}\\[0.8cm]
+
+\emph{\Large Academic Supervisor:}\\[0.5cm]
+{\examname} \\
+Maître de Conférences\\
+Université Pierre et Marie Curie - LIP6\\
+Tel : 01.44.27.87.73\qquad E-mail : \href{mailto:pierre.fortin@lip6.fr}{pierre.fortin@lip6.fr}
+}
+
+%----------------------------------------------------------------------------------------
+%	ACKNOWLEDGEMENTS
+%----------------------------------------------------------------------------------------
+
+\cleardoublepage
+
+\acknowledgements{\addtocontents{toc}{\vspace{1em}} % Add a gap in the Contents, for aesthetics
+
+The internship opportunity I had with I23 group was a great chance for learning and professional development. It's here at EDF R\&D that I strengthened my willing to future research careers. Therefore, I consider myself as a very lucky individual as I was provided with an opportunity to be a part of it. I am sincerely grateful for having a chance to meet so many wonderful people and professionals who led me through this six-month internship.
+
+First and foremost I would like to express my deepest gratitude to Pierre Guérin, my major supervisor at EDF, for his patient guidance, enthusiastic encouragement and useful proposals for my work.
+
+I would also like to offer my special thanks to Andreas Schumm who took time out to hear and guide me to get a better understanding on MODERATO.
+
+Also many thanks to François Févotte, Bruno Lathuilière and my academic supervisor Pierre Fortin who offer valuable advices.
+
+Last, but not least, I would like to express my thanks to all I23 members. Thank you all for the fabulous coffee time we had together!
+}
+
+%----------------------------------------------------------------------------------------
+%	LIST OF CONTENTS/FIGURES/TABLES PAGES
+%----------------------------------------------------------------------------------------
+\pagebreak
+
+\pagestyle{fancy} % The page style headers have been "empty" all this time, now use the "fancy" headers as defined before to bring them back
+
+\lhead{\emph{Contents}} % Set the left side page header to "Contents"
+\tableofcontents % Write out the Table of Contents
+
+\addtocontents{toc}{\vspace{1em}} % Add a gap in the Contents, for aesthetics
+
+\lhead{\emph{List of Figures}} % Set the left side page header to "List of Figures"
+\listoffigures % Write out the List of Figures
+
+%----------------------------------------------------------------------------------------
+%	THESIS CONTENT - CHAPTERS
+%----------------------------------------------------------------------------------------
+
+\addtocontents{toc}{\vspace{1em}} % Add a gap in the Contents, for aesthetics
+
+\mainmatter % Begin numeric (1,2,3...) page numbering
+
+\setstretch{1.5} % Return the line spacing back to 1.5
+
+\pagestyle{fancy} % Return the page headers back to the "fancy" style
+
+% Include the chapters of the thesis as separate files from the Chapters folder
+% Uncomment the lines as you write the chapters
+
+\input{Chapters/Chapter1}
+\input{Chapters/Chapter2} 
+\input{Chapters/Chapter3}
+\input{Chapters/Chapter4} 
+\input{Chapters/Chapter5} 
+\input{Chapters/Chapter6} 
+%\input{Chapters/Chapter7} 
+
+%----------------------------------------------------------------------------------------
+%	THESIS CONTENT - APPENDICES
+%----------------------------------------------------------------------------------------
+
+\addtocontents{toc}{\vspace{1em}} % Add a gap in the Contents, for aesthetics
+
+\appendix % Cue to tell LaTeX that the following 'chapters' are Appendices
+
+% Include the appendices of the thesis as separate files from the Appendices folder
+% Uncomment the lines as you write the Appendices
+
+\input{Appendices/AppendixA}
+\addtocontents{toc}{\vspace{1em}} % Add a gap in the Contents, for aesthetics
+\input{Appendices/AppendixB}
+\addtocontents{toc}{\vspace{1em}} % Add a gap in the Contents, for aesthetics
+\input{Appendices/AppendixC}
+
+\addtocontents{toc}{\vspace{1em}} % Add a gap in the Contents, for aesthetics
+
+\backmatter
+
+%----------------------------------------------------------------------------------------
+%	BIBLIOGRAPHY
+%----------------------------------------------------------------------------------------
+
+\label{Bibliography}
+
+\lhead{\emph{Bibliography}} % Change the page header to say "Bibliography"
+
+\bibliographystyle{unsrtnat} % Use the "unsrtnat" BibTeX style for formatting the Bibliography
+
+\bibliography{Bibliography} % The references (bibliography) information are stored in the file named "Bibliography.bib"
+
+\addtocontents{toc}{\vspace{1em}} % Add a gap in the Contents, for aesthetics
+
+%----------------------------------------------------------------------------------------
+%	ABSTRACT PAGE
+%----------------------------------------------------------------------------------------
+\setstretch{1.5} % Reset the line-spacing to 1.5 for body text (if it has changed)
+
+\clearpage % Start a new page
+
+\frontmatter % Use roman page numbering style (i, ii, iii, iv...) for the pre-content pages
+
+\abs{\addtocontents{toc}{\vspace{1em}} % Add a gap in the Contents, for aesthetics
+
+NVIDIA OptiX provides developers with a highly optimized ray tracing platform on GPU. It manages automatically traditional GPU implementation problems like keeping thread blocks busy, minimizing data transfers, optimizing use of hardware and so on. With OptiX ray tracing engine, users may fully concentrate on the content itself without worry about specialized GPGPU architecture. Furthermore, OptiX allows users to assemble easily their own programs with the built-in tracking mechanism. 
+
+EDF R\&D developed MODERATO to simulate the industrial radiography process. This Monte Carlo code employs ray tracing method to track gamma ray propagations and generates simulation images, but such calculations are extremely time-consuming. As a result, acceleration of this Monte Carlo simulation appears to be very important. 
+
+During this six-month internship, I explored OptiX's ray tracing potentials for general-purposed scientific computing. Major features of MODERATO implemented with this ray tracer. Test results indicate that OptiX implementation is really powerful since it attained the same computing performance as a CPU cluster with 8 Intel Xeon E5-2697 processors (96 cores). In conclusion, OptiX is a well suited ray tracing platform for scientific Monte Carlo simulations.
+}
+
+%----------------------------------------------------------------------------------------
+%	RÉSUMÉ PAGE
+%----------------------------------------------------------------------------------------
+
+\clearpage % Start a new page
+
+\resume{\addtocontents{toc}{\vspace{1em}} % Add a gap in the Contents, for aesthetics
+
+Le code MODERATO développé par EDF simule le procédé de contrôle non destructif par radiographie X et gamma. Il s'agit d'une simulation Monte Carlo qui permet de reproduire et de prévoir les phénomènes physiques intervenant dans le cadre de l’inspection de centrales nucléaires. En particulier, cette simulation emprunte une modélisation de lancer de rayons afin de simuler le déplacement des photons.
+
+Depuis récemment, Nvidia propose une bibliothèque de lancer de rayons, OptiX, optimisée pour l'architecture CUDA. En utilisant cette API pour un calcul scientifique, les développeurs peuvent se concentrer sur les problèmes de simulation et laisser OptiX prendre en charge le matériel et le parallélisme.
+
+Pendant ces six mois de stage, ma mission principale a été d'étudier le portage de l'algorithme Monte Carlo sur l'accélérateur GPU, en explorant la possibilité de s'appuyer sur OptiX. Selon des tests qu'on a réalisé, OptiX fournit une performance au même niveau qu'un CPU cluster avec 8 Xeon E5-2697 processeurs (96 coeurs). On peut conclure qu'OptiX est un outil de lancer de rayons flexible et ouvert pour le calcul scientifique. Il nous permet d'avoir une accélération impressionnante en changeant peu l'algorithme initial.
+}
+
+%----------------------------------------------------------------------------------------
+\end{document}  

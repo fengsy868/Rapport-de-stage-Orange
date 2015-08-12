@@ -1,0 +1,276 @@
+\begin{thebibliography}{41}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Martinsen et~al.(2009)Martinsen, Blaschke, Künnemeyer, and
+  Jordan]{Reference1}
+Paul Martinsen, Johannes Blaschke, Rainer Künnemeyer, and Robert Jordan.
+\newblock Accelerating monte carlo simulations with an nvidia graphics
+  processor.
+\newblock \emph{Computer Physics Communications}, 180\penalty0 (10):\penalty0
+  1983 -- 1989, 2009.
+\newblock ISSN 0010-4655.
+\newblock URL
+  \url{http://www.sciencedirect.com/science/article/pii/S0010465509001593}.
+
+\bibitem[Bergmann(2014)]{Reference2}
+Ryan~M. Bergmann.
+\newblock \emph{The Development of WARP - A Framework for Continuous Energy
+  Monte Carlo Neutron Transport in General 3D Geometries on GPUs}.
+\newblock PhD thesis, University of California, Berkeley, Berkeley, California,
+  USA, Spring 2014.
+\newblock URL \url{http://rmbergmann.com/RyanBergmann-dissertation-FINAL.pdf}.
+
+\bibitem[Wik(2014{\natexlab{a}})]{Reference4}
+\emph{Monte Carlo method}.
+\newblock Wikipedia, 2014{\natexlab{a}}.
+\newblock URL \url{http://en.wikipedia.org/wiki/Monte_Carlo_method}.
+
+\bibitem[Tickner(2010)]{Reference3}
+James Tickner.
+\newblock Monte carlo simulation of x-ray and gamma-ray photon transport on a
+  graphics-processing unit.
+\newblock \emph{Computer Physics Communications}, 181\penalty0 (11):\penalty0
+  1821--1832, 2010.
+
+\bibitem[NVI(2014)]{Reference6}
+\emph{NVIDIA OptiX Ray Tracing Programming Guide}.
+\newblock NVIDIA Corporation, Santa Clara, California, 3.5.1 edition, February
+  2014.
+
+\bibitem[Bonin and Lavayssière(2000)]{Reference5}
+A.~Bonin and B.~Lavayssière.
+\newblock New advances in the development of moderato.
+\newblock In \emph{Conference Proceedings}, Roma, October 2000. 15th World
+  Conf. on Non Destructive Testing.
+
+\bibitem[Wik(2014{\natexlab{b}})]{edf}
+\emph{Électricité de France}.
+\newblock Wikipedia, 2014{\natexlab{b}}.
+\newblock URL
+  \url{http://en.wikipedia.org/wiki/%C3%89lectricit%C3%A9_de_France}.
+
+\bibitem[EDF(2014{\natexlab{a}})]{edfgroup}
+\emph{R\&D A CRUCIAL ELEMENT IN INDUSTRIAL PERFORMANCE}.
+\newblock The EDF Group, 2014{\natexlab{a}}.
+\newblock URL \url{http://businesses.edf.com/research/missions-94278.html}.
+
+\bibitem[EDF(2014{\natexlab{b}})]{sinetics}
+\emph{Introduction of SINETICS}.
+\newblock The EDF Group, 2014{\natexlab{b}}.
+\newblock URL \url{https://intranet.edf.fr/web/rd-sinetics/lire-detail/-/}.
+
+\bibitem[Cartz(1995)]{Reference7}
+Louis Cartz.
+\newblock \emph{Non-destructive Testing}, volume ISBN of
+  \emph{978-0-87170-517-4}.
+\newblock A S M International, 1995.
+
+\bibitem[Wik(2014{\natexlab{c}})]{Reference8}
+\emph{Nondestructive testing}.
+\newblock Wikipedia, 2014{\natexlab{c}}.
+\newblock URL \url{http://en.wikipedia.org/wiki/Nondestructive_testing}.
+
+\bibitem[Wik(2014{\natexlab{d}})]{Reference9}
+\emph{Industrial radiography}.
+\newblock Wikipedia, 2014{\natexlab{d}}.
+\newblock URL \url{http://en.wikipedia.org/wiki/Industrial_radiography}.
+
+\bibitem[Ber(2014)]{irprinciple}
+\emph{RT Film Making a Radiograph}.
+\newblock Bernoullies, 2014.
+\newblock URL
+  \url{http://en.wikipedia.org/wiki/Radiographic_testing#mediaviewer/File:RT_Film_Making_a_Radiograph.jpg}.
+
+\bibitem[Gov(2012)]{plant}
+\emph{Three Cooling Circuits of Pressurised Water Reactor}.
+\newblock The Government of the Hong Kong Special Administrative Region, 2012.
+\newblock URL
+  \url{http://www.dbcp.gov.hk/eng/safety/plants_clip_image001_0000.gif}.
+
+\bibitem[Bonin-Girardi(2001)]{Reference10}
+Alice Bonin-Girardi.
+\newblock \emph{Simulation de Monte Carlo d'un Système Radiographique et
+  Expérimentations}.
+\newblock PhD thesis, École Normale Supérieure de Cachan, Chatou, France,
+  March 2001.
+
+\bibitem[Simon(1995)]{montecarlo}
+Julian~L. Simon.
+\newblock \emph{Resampling: The New Statistics}, volume ISBN-13 of
+  \emph{978-0534217204}.
+\newblock Resampling Stats (1995), 1st edition, 1995.
+
+\bibitem[Xu et~al.(2013)Xu, Liu, Su, Du, Riblett, Ji, and Brown]{xu2013update}
+X~George Xu, Tianyu Liu, Lin Su, Xining Du, Matthew Riblett, Wei Ji, and
+  Forrest~B Brown.
+\newblock An update of archer, a monte carlo radiation transport software
+  testbed for emerging hardware such as gpus.
+\newblock \emph{Transactions of the American Nuclear Society}, 108:\penalty0
+  16--20, 2013.
+
+\bibitem[Liu et~al.(2014)Liu, Xu, and Carothers]{liu2014comparison}
+Tianyu Liu, X~George Xu, and Christopher~D Carothers.
+\newblock Comparison of two accelerators for monte carlo radiation transport
+  calculations, nvidia tesla m2090 gpu and intel xeon phi 5110p coprocessor: A
+  case study for x-ray ct imaging dose calculation.
+\newblock In \emph{Joint International Conference on Supercomputing in Nuclear
+  Applications+ Monte Carlo, held 27-31 October, 2013 in Paris, France. Edited
+  by D. Caruge, C. Calvin, CM Diop, F. Malvagi, and J.-C. Trama. EDP Sciences,
+  2014, id. 04205, 7 pp.}, volume~1, page 04205, 2014.
+
+\bibitem[Su et~al.(2014)Su, Yang, Bednarz, Sterpin, Du, Liu, Ji, and
+  Xu]{su2014archerrt}
+Lin Su, Youming Yang, Bryan Bednarz, Edmond Sterpin, Xining Du, Tianyu Liu, Wei
+  Ji, and X~George Xu.
+\newblock Archerrt--a gpu-based and photon-electron coupled monte carlo dose
+  computing engine for radiation therapy: Software development and application
+  to helical tomotherapy.
+\newblock \emph{Medical physics}, 41\penalty0 (7):\penalty0 071709, 2014.
+
+\bibitem[Liu et~al.(2013)Liu, Du, and Xu]{liu2013tu}
+T~Liu, X~Du, and X~Xu.
+\newblock Tu-g-103-05: Affordable supercomputer-based monte carlo ct dose
+  calculations: A hardware comparison between nvidia m2090 gpu and intel xeon
+  phi 5110p coprocessor.
+\newblock \emph{Medical Physics}, 40\penalty0 (6):\penalty0 459--459, 2013.
+
+\bibitem[Jan(2014)]{cluster}
+\emph{Computer Cluster}.
+\newblock Janalta Interactive Inc., 2014.
+\newblock URL \url{http://www.techopedia.com/definition/6581/computer-cluster}.
+
+\bibitem[Shu(September 6th, 2013)]{micdeveloper}
+\emph{Case Study: Achieving High Performance on Monte Carlo European Option
+  Using Stepwise Optimization Framework}.
+\newblock Shuo Li (Intel), September 6th, 2013.
+\newblock URL
+  \url{https://software.intel.com/en-us/articles/case-study-achieving-high-performance-on-monte-carlo-european-option/using-stepwise}.
+
+\bibitem[Bernaschi et~al.(2014)Bernaschi, Bisson, and
+  Salvadore]{Bernaschi20142495}
+M.~Bernaschi, M.~Bisson, and F.~Salvadore.
+\newblock Multi-kepler \{GPU\} vs. multi-intel \{MIC\} for spin systems
+  simulations.
+\newblock \emph{Computer Physics Communications}, 185\penalty0 (10):\penalty0
+  2495 -- 2503, 2014.
+\newblock ISSN 0010-4655.
+\newblock URL
+  \url{http://www.sciencedirect.com/science/article/pii/S0010465514002008}.
+
+\bibitem[Souris et~al.(2014)Souris, Lee, and Sterpin]{souris2014th}
+K~Souris, J~Lee, and E~Sterpin.
+\newblock Th-a-19a-08: Intel xeon phi implementation of a fast multi-purpose
+  monte carlo simulation for proton therapy.
+\newblock \emph{Medical Physics}, 41\penalty0 (6):\penalty0 535--535, 2014.
+
+\bibitem[Sterpin et~al.(2014)Sterpin, Sorriaux, Schuemann, Souris, Lee,
+  Vynckier, Jia, Jiang, and Paganetti]{sterpin2014180}
+E~Sterpin, J~Sorriaux, J~Schuemann, K~Souris, J~Lee, S~Vynckier, X~Jia,
+  S~Jiang, and H~Paganetti.
+\newblock Su-et-180: Fano cavity test of proton transport in monte carlo codes
+  running on gpu and xeon phi.
+\newblock \emph{Medical Physics}, 41\penalty0 (6):\penalty0 264--264, 2014.
+
+\bibitem[Georgios~Kalantzis(2014)]{tachibana2014accelerated}
+Hidenobu~Tachibana Georgios~Kalantzis.
+\newblock Accelerated event-by-event monte carlo microdosimetric calculations
+  of electrons and protons tracks on a multi-core cpu and a cuda-enabled gpu.
+\newblock \emph{Computer methods and programs in biomedicine}, 113\penalty0
+  (1):\penalty0 116--125, 2014.
+
+\bibitem[Wald et~al.(2014)Wald, Woop, Benthin, Johnson, and
+  Ernst]{wald2014embree}
+Ingo Wald, Sven Woop, Carsten Benthin, Gregory~S Johnson, and Manfred Ernst.
+\newblock Embree: A kernel framework for efficient cpu ray tracing.
+\newblock 2014.
+
+\bibitem[Emb(2014)]{embree}
+\emph{Embree: High Performance Ray Tracing Kernels}.
+\newblock Embree Group, Santa Clara, CA, USA, 2.3.2 edition, July 23 2014.
+
+\bibitem[Parker et~al.(2010)Parker, Bigler, Dietrich, Friedrich, Hoberock,
+  Luebke, McAllister, McGuire, Morley, Robison, and Stich]{Parker10OptiX}
+Steven~G. Parker, James Bigler, Andreas Dietrich, Heiko Friedrich, Jared
+  Hoberock, David Luebke, David McAllister, Morgan McGuire, Keith Morley,
+  Austin Robison, and Martin Stich.
+\newblock Optix: A general purpose ray tracing engine.
+\newblock \emph{ACM Transactions on Graphics}, August 2010.
+
+\bibitem[Opt(2014)]{optixgroup}
+\emph{NVIDIA OptiX ray tracing engine}.
+\newblock OptiX Group, 2014.
+\newblock URL \url{https://developer.nvidia.com/optix}.
+
+\bibitem[Pietrzak and Kacperski(2013)]{gpuconf}
+Jakub Pietrzak and Krzysztof Kacperski.
+\newblock Ultra fast ray-tracer for medical imaging with nvidia optix engine.
+\newblock In \emph{Conference Presentations}, San Jose, CA, March 2013. GPU
+  Technology Conference.
+
+\bibitem[Safari et~al.(2014)Safari, Afarideh, Ghal-Eh, and
+  Davani]{Safari2014101}
+M.J. Safari, H.~Afarideh, N.~Ghal-Eh, and F.~Abbasi Davani.
+\newblock Optix: A monte carlo scintillation light transport code.
+\newblock \emph{Nuclear Instruments and Methods in Physics Research Section A:
+  Accelerators, Spectrometers, Detectors and Associated Equipment},
+  737\penalty0 (0):\penalty0 101 -- 106, 2014.
+\newblock ISSN 0168-9002.
+\newblock URL
+  \url{http://www.sciencedirect.com/science/article/pii/S0168900213015921}.
+
+\bibitem[Dox(2014)]{optixref}
+\emph{OPTIX API REFERENCE}.
+\newblock Doxygen, NVIDIA Corporation, Santa Clara, California, 3.5 edition,
+  February 2014.
+
+\bibitem[CUD(2014)]{cuda6report}
+\emph{CUDA 6.0 Performance Report}.
+\newblock CUDA group, NVIDIA Corporation, Santa Clara, California, April 2014.
+\newblock URL
+  \url{developer.download.nvidia.com/compute/cuda/6_0/rel/docs/CUDA_6_Performance_Report.pdf}.
+
+\bibitem[Marsland(2011)]{marsland2011machine}
+Stephen Marsland.
+\newblock \emph{Machine learning: an algorithmic perspective}.
+\newblock CRC Press, 2011.
+
+\bibitem[L'Ecuyer(2014)]{lecuyer}
+Pierre L'Ecuyer.
+\newblock \emph{Multiple Streams of Random Numbers for Parallel Computers:
+  Design and Implementation}.
+\newblock CEA, Saclay, June 2014.
+
+\bibitem[CUD(2013{\natexlab{a}})]{curand}
+\emph{CURAND LIBRARY: Programming Guide}.
+\newblock CUDA group, NVIDIA Corporation, Santa Clara, California, 5.5 edition,
+  July 2013{\natexlab{a}}.
+\newblock URL \url{http://docs.nvidia.com/cuda/curand/index.html}.
+
+\bibitem[L'ecuyer(1999)]{l1999good}
+Pierre L'ecuyer.
+\newblock Good parameters and implementations for combined multiple recursive
+  random number generators.
+\newblock \emph{Operations Research}, 47\penalty0 (1):\penalty0 159--164, 1999.
+
+\bibitem[Saito and Matsumoto(2012)]{xorwow}
+Mutsuo Saito and Makoto Matsumoto.
+\newblock \emph{A deviation of CURAND: standard pseudorandom number generator
+  in CUDA for GPGPU}.
+\newblock Hiroshima University, University of Tokyo, February 13 2012.
+
+\bibitem[CUD(2013{\natexlab{b}})]{cudaguide}
+\emph{CUDA Programming Guide}.
+\newblock CUDA group, NVIDIA Corporation, Santa Clara, California, 5.5 edition,
+  July 2013{\natexlab{b}}.
+\newblock URL \url{http://docs.nvidia.com/cuda/cuda-c-programming-guide/}.
+
+\bibitem[Hwu and Kirk(2009)]{hwu2009programming}
+Wen-mei Hwu and David Kirk.
+\newblock Programming massively parallel processors.
+\newblock \emph{Special Edition}, 92, 2009.
+
+\end{thebibliography}
