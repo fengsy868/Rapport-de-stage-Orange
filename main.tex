@@ -7,7 +7,7 @@
 
 \graphicspath{{Pictures/}} % Specifies the directory where pictures are stored
 
-\usepackage[square, numbers, comma, sort&compress]{natbib} % Use the natbib reference package - read up on this to edit the reference style; if you want text (e.g. Smith et al., 2012) for the in-text references (instead of numbers), remove 'numbers' 
+\usepackage[square, numbers, comma, sort&compress]{natbib} % Use the natbib reference package - read up on this to edit the reference style; if you want text (e.g. Smith et al., 2012) for the in-text references (instead of numbers), remove 'numbers'
 \hypersetup{urlcolor=blue, colorlinks=true} % Colors hyperlinks in blue - change to black if annoying
 \title{\ttitle} % Defines the thesis title - don't touch this
 
@@ -46,9 +46,9 @@
 \HRule \\[0.4cm] % Horizontal line
 {\textbf{\huge  \ttitle}}\\[0cm] % Thesis title
 \HRule \\[2.5cm] % Horizontal line
- 
+
 \begin{figure}[htbp]
-	\centering 
+	\centering
 		\includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{Figures/logo.png}
 \end{figure}
 \vspace{2.8cm}
@@ -60,18 +60,18 @@
 %\emph{\Large Industrial Supervisor:} \\
 %{\supname} \\% Supervisor name - remove the \href bracket to remove the link
 %{\supnamex} \\% Supervisor name - remove the \href bracket to remove the link
-%{\supnamexx}\\[0.5cm] % Supervisor name - remove the \href bracket to remove the link  
+%{\supnamexx}\\[0.5cm] % Supervisor name - remove the \href bracket to remove the link
 
 %\emph{\Large Academic Supervisor:}\\
 %{\examname} \\[2cm]% Author name - remove the \href bracket to remove the link
- 
+
 \large \textit{A report submitted in fulfilment of the requirements\\ for the degree of \degreename}\\[0.3cm] % University requirement text
 \textit{at}\\[0.4cm]
 {\Large \groupname}\\[2.5cm] % Research group name and department name
- 
+
 {\large \today}\\[4cm] % Date
 %\includegraphics{Logo} % University/department logo - uncomment to place it
- 
+
 \vfill
 \end{center}
 \cleardoublepage
@@ -87,20 +87,14 @@
 
 \emph{\Large Industrial Supervisors:}\\[0.5cm]
 {\supname} \\% Supervisor name - remove the \href bracket to remove the link
-Ingénieur Chercheur, \ \ EDF R\&D/SINETICS/I23\\
-Tel : 01.47.65.36.77\qquad E-mail : \href{mailto:pierre.guerin@edf.fr}{pierre.guerin@edf.fr}\\[0.3cm]
-{\supnamex} \\% Supervisor name - remove the \href bracket to remove the link
-Chef de Projet,\qquad\quad \ EDF R\&D/SINETICS/I28\\
-Tel : 01.47.65.49.44\qquad E-mail : \href{mailto:andreas.schumm@edf.fr}{andreas.schumm@edf.fr}\\[0.3cm]
-{\supnamexx} \\% Supervisor name - remove the \href bracket to remove the link  
-Ingénieur Chercheur, \ \ EDF R\&D/SINETICS/I23\\
-Tel : 01.47.65.33.47\qquad E-mail : \href{mailto:francois.fevotte@edf.fr}{francois.fevotte@edf.fr}\\[0.8cm]
+Ingénieur Développement, \ \ Orange/OLPS\\
+Tel : 04.76.76.42.20\qquad E-mail : \href{mailto:matthieu.anne@orange.com}{matthieu.anne@orange.fr}\\[0.3cm]
 
 \emph{\Large Academic Supervisor:}\\[0.5cm]
 {\examname} \\
-Maître de Conférences\\
+Directeur de EI-SE\\
 Université Pierre et Marie Curie - LIP6\\
-Tel : 01.44.27.87.73\qquad E-mail : \href{mailto:pierre.fortin@lip6.fr}{pierre.fortin@lip6.fr}
+Tel : 01.44.27.96.35\qquad E-mail : \href{mailto:andrea.pinna@lip6.fr}{andrea.pinna@lip6.fr}
 }
 
 %----------------------------------------------------------------------------------------
@@ -110,16 +104,13 @@ Tel : 01.44.27.87.73\qquad E-mail : \href{mailto:pierre.fortin@lip6.fr}{pierre.f
 \cleardoublepage
 
 \acknowledgements{\addtocontents{toc}{\vspace{1em}} % Add a gap in the Contents, for aesthetics
+The internship opportunity I had with CARE group was a great chance for learning and professional development. It’s here at Orange Labs I strengthened my willing to future research careers. Therefore, I consider myself as a very lucky individual as I was provided with an opportunity to be a part of it. I am sincerely grateful for having a chance to meet so many wonderful people and professionals who led me through this six-month internship.
 
-The internship opportunity I had with I23 group was a great chance for learning and professional development. It's here at EDF R\&D that I strengthened my willing to future research careers. Therefore, I consider myself as a very lucky individual as I was provided with an opportunity to be a part of it. I am sincerely grateful for having a chance to meet so many wonderful people and professionals who led me through this six-month internship.
+First and foremost, I would like to express my sincere gratitude to my supervisor M. Matthieu ANNE, for the continuous support of my internship, for his patience, motivation, and immense knowledge. His guidance helped me in all the time of research and writing of this report. I could not have imagined having a better superadvisor and mentor for my internship.
 
-First and foremost I would like to express my deepest gratitude to Pierre Guérin, my major supervisor at EDF, for his patient guidance, enthusiastic encouragement and useful proposals for my work.
+My sincere thanks also goes to M. Julien Roland, M. Marc Douet, who provided me their knowledge and experience and precious time, only with their help I can get better work enviroment.
 
-I would also like to offer my special thanks to Andreas Schumm who took time out to hear and guide me to get a better understanding on MODERATO.
-
-Also many thanks to François Févotte, Bruno Lathuilière and my academic supervisor Pierre Fortin who offer valuable advices.
-
-Last, but not least, I would like to express my thanks to all I23 members. Thank you all for the fabulous coffee time we had together!
+Last but not the least, I would like to thank all the CARE team members. Thank you for the fabulous leisure time we had together!
 }
 
 %----------------------------------------------------------------------------------------
@@ -153,12 +144,12 @@ Last, but not least, I would like to express my thanks to all I23 members. Thank
 % Uncomment the lines as you write the chapters
 
 \input{Chapters/Chapter1}
-\input{Chapters/Chapter2} 
+\input{Chapters/Chapter2}
 \input{Chapters/Chapter3}
-\input{Chapters/Chapter4} 
-\input{Chapters/Chapter5} 
-\input{Chapters/Chapter6} 
-%\input{Chapters/Chapter7} 
+\input{Chapters/Chapter4}
+\input{Chapters/Chapter5}
+\input{Chapters/Chapter6}
+%\input{Chapters/Chapter7}
 
 %----------------------------------------------------------------------------------------
 %	THESIS CONTENT - APPENDICES
@@ -206,9 +197,9 @@ Last, but not least, I would like to express my thanks to all I23 members. Thank
 
 \abs{\addtocontents{toc}{\vspace{1em}} % Add a gap in the Contents, for aesthetics
 
-NVIDIA OptiX provides developers with a highly optimized ray tracing platform on GPU. It manages automatically traditional GPU implementation problems like keeping thread blocks busy, minimizing data transfers, optimizing use of hardware and so on. With OptiX ray tracing engine, users may fully concentrate on the content itself without worry about specialized GPGPU architecture. Furthermore, OptiX allows users to assemble easily their own programs with the built-in tracking mechanism. 
+NVIDIA OptiX provides developers with a highly optimized ray tracing platform on GPU. It manages automatically traditional GPU implementation problems like keeping thread blocks busy, minimizing data transfers, optimizing use of hardware and so on. With OptiX ray tracing engine, users may fully concentrate on the content itself without worry about specialized GPGPU architecture. Furthermore, OptiX allows users to assemble easily their own programs with the built-in tracking mechanism.
 
-EDF R\&D developed MODERATO to simulate the industrial radiography process. This Monte Carlo code employs ray tracing method to track gamma ray propagations and generates simulation images, but such calculations are extremely time-consuming. As a result, acceleration of this Monte Carlo simulation appears to be very important. 
+EDF R\&D developed MODERATO to simulate the industrial radiography process. This Monte Carlo code employs ray tracing method to track gamma ray propagations and generates simulation images, but such calculations are extremely time-consuming. As a result, acceleration of this Monte Carlo simulation appears to be very important.
 
 During this six-month internship, I explored OptiX's ray tracing potentials for general-purposed scientific computing. Major features of MODERATO implemented with this ray tracer. Test results indicate that OptiX implementation is really powerful since it attained the same computing performance as a CPU cluster with 8 Intel Xeon E5-2697 processors (96 cores). In conclusion, OptiX is a well suited ray tracing platform for scientific Monte Carlo simulations.
 }
@@ -229,4 +220,4 @@ Pendant ces six mois de stage, ma mission principale a été d'étudier le porta
 }
 
 %----------------------------------------------------------------------------------------
-\end{document}  
+\end{document}

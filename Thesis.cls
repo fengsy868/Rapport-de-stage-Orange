@@ -4,7 +4,7 @@
 % This template has been downloaded from:
 % http://www.latextemplates.com
 %
-% This class file defines the structure and design of the template. 
+% This class file defines the structure and design of the template.
 %
 % There is one part of this file that needs to be filled out - the variables
 % dictating the document particulars such as the author name, university
@@ -189,58 +189,58 @@
 %	defined as \examname above so you cite it as \examname
 %----------------------------------------------------------------------------------------
 
-\thesistitle{Ray Tracing Acceleration of A Radiographic Monte Carlo Simulation on GPUs} % Your thesis title - this is used in the title and abstract
-%-------------------------------------------------  
-\supervisor{Pierre \textsc{Guérin}} % You supervisor's name - this is used in the title page
-\supervisorx{Andreas \textsc{Schumm}} % You supervisor's name - this is used in the title page
-\supervisorxx{François \textsc{Févotte}} % You supervisor's name - this is used in the title page
-%-------------------------------------------------   
-\examiner{Pierre \textsc{Fortin}} % Your examiner's name - this is not currently used anywhere in the template, cite it with \examname if you want it
-%-------------------------------------------------   
+\thesistitle{Application Development in the Area of Device Management(Home Automation Box)} % Your thesis title - this is used in the title and abstract
+%-------------------------------------------------
+\supervisor{Matthieu \textsc{Anne}} % You supervisor's name - this is used in the title page
+%\supervisorx{Andreas \textsc{Schumm}} % You supervisor's name - this is used in the title page
+%\supervisorxx{François \textsc{Févotte}} % You supervisor's name - this is used in the title page
+%-------------------------------------------------
+\examiner{Andrea \textsc{Pinna}} % Your examiner's name - this is not currently used anywhere in the template, cite it with \examname if you want it
+%-------------------------------------------------
 \degree{Engineer in Electronics and Computer Science} % Your degree name - this is currently used in the title page and abstract
-%-------------------------------------------------   
-\authors{\textsc{WANG} Yunsong} % Your name - this is used in the title page and abstract
-%-------------------------------------------------   
+%-------------------------------------------------
+\authors{\textsc{FENG} Siyao} % Your name - this is used in the title page and abstract
+%-------------------------------------------------
 \addresses{} % Your address - this is not currently used anywhere in the template, cite it with \addressnames if you want it
-%-------------------------------------------------   
+%-------------------------------------------------
 \subject{} % Your subject area - this is not currently used anywhere in the template, cite it with \subjectname if you want it
-%-------------------------------------------------   
+%-------------------------------------------------
 \keywords{} % Keywords for your thesis - this is not currently used anywhere in the template, cite it with \keywordnames if you want it
-%-------------------------------------------------   
+%-------------------------------------------------
 \university{\texorpdfstring{%\href{http://www.university.com} % Your university's URL
-                {Électricité de France \\Recherche et Développement }} % Your university's name - this is currently used in the title page
+                {Orange France \\Orange Labs Product \& Service }} % Your university's name - this is currently used in the title page
                 {}}
-%-------------------------------------------------   
+%-------------------------------------------------
 \UNIVERSITY{\texorpdfstring{\href{University Web Site URL Here (include http://)} % Your university's URL
                 {UNIVERSITY NAME (IN BLOCK CAPITALS)}} % Your university's name in capitals - this is currently used in the abstract page
                 {UNIVERSITY NAME (IN BLOCK CAPITALS)}}
-%-------------------------------------------------                
+%-------------------------------------------------
 \department{\texorpdfstring{\href{Department or School Web Site URL Here (include http://)} % Your department's URL
                 {Department or School Name}} % Your department's name - used in the title page and abstract
                 {Department or School Name}}
-%-------------------------------------------------                
+%-------------------------------------------------
 \DEPARTMENT{\texorpdfstring{\href{Department or School Web Site URL Here (include http://)} % Your department's URL
                 {DEPARTMENT OR SCHOOL NAME (IN BLOCK CAPITALS)}} % Your department's name in capitals - this is not currently used anywhere in the template, cite it with \DEPTNAME if you want it
                 {DEPARTMENT OR SCHOOL NAME (IN BLOCK CAPITALS)}}
-%-------------------------------------------------                
+%-------------------------------------------------
 \group{\texorpdfstring{%\href{Research Group Web Site URL Here (include http://)} % Your research group's URL
-                {Polytech Paris-UPMC}} % Your research group's name - this is currently used in the title page 
+                {Polytech Paris-UPMC}} % Your research group's name - this is currently used in the title page
                 {Research Group Name}}
-%-------------------------------------------------                
+%-------------------------------------------------
 \GROUP{\texorpdfstring{\href{Research Group Web Site URL Here (include http://)} % Your research group's URL
                 {RESEARCH GROUP NAME (IN BLOCK CAPITALS)}} % Your research group's name in capitals - this is not currently used anywhere in the template, cite it with \GROUPNAME if you want it
                 {RESEARCH GROUP NAME (IN BLOCK CAPITALS)}}
-%-------------------------------------------------                
+%-------------------------------------------------
 \faculty{\texorpdfstring{\href{Faculty Web Site URL Here (include http://)} % Your faculty's URL
                 {Faculty Name}} % Your faculty's name - this is currently used in the abstract page
                 {Faculty Name}}
-%-------------------------------------------------                
+%-------------------------------------------------
 \FACULTY{\texorpdfstring{\href{Faculty Web Site URL Here (include http://)} % Your faculty's URL
                 {FACULTY NAME (IN BLOCK CAPITALS)}} % Your faculty's name in capitals - this is not currently used anywhere in the template, cite it with \FACNAME if you want it
                 {FACULTY NAME (IN BLOCK CAPITALS)}}
-%----------------------------------------------------------------------------------------    
+%----------------------------------------------------------------------------------------
 
-% The default title page, this is not used in this www.latextemplates.com version            
+% The default title page, this is not used in this www.latextemplates.com version
 \renewcommand\maketitle{
   \btypeout{Title Page}
   \hypersetup{pdftitle={\@title}}
@@ -271,7 +271,7 @@
       \bigskip
       {\large in the \par}
       {\large \facname \par}
-      {\large \deptname \par} 
+      {\large \deptname \par}
       \bigskip
       \bigskip
       \bigskip
