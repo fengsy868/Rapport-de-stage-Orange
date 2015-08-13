@@ -30,6 +30,8 @@ Gives outline of this report, chapter 1 for, chapter 2 for …..
 ####  3.1.2 Datamodel
 
 ###3.2 Mios
+####  3.2.1 Luup
+####  3.2.2 MMS
 ###3.3 NAT traversal
 ####  3.3.1 Principals
 ####  3.3.2 UPnP IGD
@@ -42,13 +44,27 @@ Gives outline of this report, chapter 1 for, chapter 2 for …..
 4. Architecture of HomeLive Management Platform
 -------------------------------------------------------
 Introduce the ACS-HAB architecture.
+###4.1 Automatic Configuration Server
+###4.2 Homelive
 
+5. Tr069agent
+------------------------------------------------------
+###5.1 Architecture
+Modules of TR-069 client
+###5.2 Problems and Solutions
+###5.3 Complete RPC methods
 
-# My Table of content
-- [Section 1](#id-section1)
-- [Section 2](#id-section2)
+6. Z-Wave
+---------------------------------------------------------
+###6.1 Protocol Z-Wave
+Introduction of protocol Z-Wave
+###6.2 Data Model Z-Wave
+Brief introduction of our data model
+###6.3 Update Z-Wave in TR-069 Client
+####6.3.1 HTTP Request
+Get JSON file with the local http request to firmware of Homelive
+####6.3.2 JSON parser
+####6.3.3 Simple File Storage
 
-<div id='id-section1'/>
-## Section 1
-<div id='id-section2'/>
-## Section 2
+7. Conclusion
+------------------------------------------------------
