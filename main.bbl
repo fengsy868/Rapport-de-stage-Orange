@@ -1,0 +1,30 @@
+\begin{thebibliography}{4}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Ref(2015)]{Reference1}
+\emph{Wikipedia}, 2015.
+\newblock URL \url{https://en.wikipedia.org/wiki/TR-069}.
+
+\bibitem[Gerhart(1999)]{homeautomation}
+James Gerhart.
+\newblock \emph{Home Automation and Wiring}.
+\newblock McGraw-Hill Professional, 3 1999.
+\newblock ISBN 0070246742.
+
+\bibitem[Harper(2003)]{homeautomation1}
+Richard Harper.
+\newblock \emph{Inside the Smart Home}.
+\newblock Springer, 8 2003.
+\newblock ISBN 1852336889.
+
+\bibitem[Stiemerling(2008)]{stiemerling2008nat}
+Martin Stiemerling.
+\newblock Nat and firewall traversal issues of host identity protocol (hip)
+  communication.
+\newblock 2008.
+
+\end{thebibliography}

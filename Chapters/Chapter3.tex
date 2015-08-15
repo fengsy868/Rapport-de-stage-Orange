@@ -1,573 +1,152 @@
 % Chapter 3
 
-\chapter{Implementation with OptiX} % Main chapter title here 
+\chapter{Background} % Main chapter title here
 
-\label{Chapter3} % For referencing the chapter elsewhere, use \ref{Chapter3} 
+\label{Chapter3} % For referencing the chapter elsewhere, use \ref{Chapter3}
 
-\lhead{Chapter 3. \emph{Building with OptiX}} % This is for the header on each page perhaps a shortened title
-\definecolor{mygreen}{rgb}{0,0.6,0}
-\definecolor{mygray}{rgb}{0.9,0.9,0.9}
-\definecolor{mymauve}{rgb}{0.58,0,0.82}
-\definecolor{mybrown}{RGB}{178,34,34}
-
-%\frametitle{Inserting source code without setting typewriter}
-\lstset{language=C++,
-  backgroundcolor=\color{mygray},
-  numbers=left,                    % possible values are (none, left, right)
-  numbersep=-8pt,                   % how far the line-numbers are from the code
-  numberstyle=\tiny\color{mybrown}, % the style that is used for the line-numbers
-  stepnumber=1,                    % each line will be numbered
-  morekeywords={*,float3,Context,setRayTypeCount,setEntryPointCount,Material,
-  launch,createProgramFromPTXFile,create,destroy,validate,compile,map,rtObject,
-  setRayGenerationProgram,Program,setFloat,createBuffer,setElementSize,rtPrintf,
-  Variable,Buffer,set,float4,rtDeclareVariable,rtBuffer,setBoundingBoxProgram,
-  setIntersectionProgram,setPrimitiveCount,createGeometry,createMaterial,
-  setClosestHitProgram,setGeometry,setMaterial,setMaterialCount,createGeometryInstance,
-  GeometryInstance,GeometryGroup,createGeometryGroup,setChildCount,setChild,
-  setAcceleration,createAcceleration,Ray,make_Ray,rtTrace,rtGetExceptionCode,
-  rtIntersectionDistance,rtPayload,uint2,rtCurrentRay,attribute,
-  Aabb,invalidate,createBufferForCUDA,cudaMalloc,set,setDevicePointer,
-  rtPotentialIntersection,rtReportIntersection},
-  keywordstyle=\color{blue},
-  stringstyle=\color{mymauve},
-  commentstyle=\color{mygreen},
-  morecomment=[l][\color{magenta}]{\#},
-  basicstyle=\footnotesize,        % the size of the fonts that are used for the code
-  keepspaces=false,                 % keeps spaces in text, useful for keeping indentation of code
-  columns=flexible,
-  breaklines=true
-  rulesepcolor=\color{mygray},
-  rulecolor=\color{mygray}
-}
+\lhead{Chapter 3. \emph{Background}} % This is for the header on each page perhaps a shortened title
 %----------------------------------------------------------------------------------------
+In this chapter, some important technical backgrounds will be covered. First it explains the \textit{CPE WAN Management Protocol (CWMP)} which defines several data models. Then is the Mios which is the main partner of Orange on the Smart Home project. Also the \textit{NAT traversal} will be presented after Mios, it is a computer networking methodology with the goal to establish and maintain Internet protocol connections across gateways that implement \textit{network address translation (NAT)}.At last, the Homelive box will be analysed, including the HardWare analyse, operating system OpenWRT and Cross-Compiling between working machine and the embedeed system OpenWRT.
 
-\section{OptiX Ray Tracing Basics}
+\section{CWMP}
+
+CPE WAN Management Protocol (CWMP) is a technology specification initiated and developed by the Digital Subscriber’s Line DSL Forum(now Broadband Forum). CWMP is numbered TR-069 by the forum and is thus also called the TR-069 protocol. It defines the general frame, message format, management method, and data model for the management and configuration of home network devices in next-generation networks.
+
+CWMP is mainly applied to DSL access networks, which are hard to manage because user devices are located at the customer premise, dispersed, and large in number. CWMP makes the management easier by using an auto-configuration server (ACS) to perform remote centralized management of customer premises equipment (CPE).
+
+
+
+\subsection{CWMP Protocol}
 \label{basics}
-OptiX implementation consists of two major parts: a list of object-based models on the host and eight programs describing ray tracing specifics on the device. Host objects are in charge of establishing test scenes where take place all ray tracing algorithms. They assist in initializing geometries, passing data between host and device, launching OptiX kernels, handling post-treatments and so on. The combination of user-defined programs and built-in tracking algorithms forms the OptiX ray tracing control flow (\fref{fig:pipeline}).
-%-------------------------------------------------------------------
+CWMP is a text based protocol. Orders sent between the device (CPE) and auto configuration server (ACS) are transported over HTTP (or more frequently HTTPS)(\fref{fig:remotecontrol}). At this level (HTTP) CPE is behaving in the role of client and ACS in the role of HTTP server. This essentially means that control over the flow of the provisioning session is the sole responsibility of the device.
 \begin{figure}[htbp]
 	\centering
-		\includegraphics[width=9.5cm]{Figures/optixpipeline.png}
-	\caption[The OptiX ray tracing pipeline]{The OptiX ray tracing pipeline \citep{Parker10OptiX}.}
-	\label{fig:pipeline}
+		\includegraphics[width=9.5cm]{Figures/Remote_CPE_Control_via_TR-069.jpg}
+	\caption[Remote CPE Control via TR-069]{Remote CPE Control via TR-069}
+	\label{fig:remotecontrol}
 \end{figure}
-%-------------------------------------------------------------------
+%-------------------------------------------------------
+\subsubsection{Provisioning session}
+All communications and operations are performed in the scope of the provisioning session. The session is always started by the device(CPE) and begins with the transmission of an Inform message. Its reception and readiness of the server for the session is indicated by an InformResponse message. That concludes the session initialization stage. The order of the next two stages depends on the value of the flag HoldRequests. If the value is false the initialization stage is followed by the transmission of device requests, otherwise ACS orders are transmitted first. The following description assumes the value is false.
 
-Launching an OptiX kernel analogous to that of CUDA: after a ray tracing launch call (defined as \textit{rtContextLaunch} in OptiX) from CPU, all operations jump to the GPU side, where the first of the eight device programs, \textit{Ray Generation Program}, is automatically triggered. This first program initializes rays, their starting points and directions, and specifies the data that they carry. Once this is done, the tracking work begins. \textit{Bounding Box Program} accelerates tracking by reporting only potential primitives along a ray's trajectory. \textit{Intersection Program} allows all these geometries to record their crossing points with the ray and send this information to following \textit{Hit Programs}. \textit{Any Hit Program} is called every time a ray-object interface is found. Afterwards, among all the coordinates reported by \textit{Intersection Program}, OptiX will automatically point out the first intersection of each ray and call its corresponding \textit{Closest Hit Program}. It's in \textit{Closest Hit Program} that developers update ray information (direction, position and specific payload data) and continue tracing the new ray. For performance issue, any ray without potential intersections will be immediately killed after \textit{Intersection Program}. 
+In the second stage, orders are transmitted from the device to the ACS. Even though the protocol defines multiple methods that may be invoked by the device on the ACS, only one is commonly found - TransferComplete which is used to inform the ACS of the completion of a file transfer previously issued Download or Upload request. This stage is finalized by transmission of empty HTTP-request to the ACS.
 
-The main idea of ray tracing algorithms is representing ray propagations with a \textit{t} value. Any 2D or 3D coordinates will be transformed into this key word. For example, movement of a ray in the test scene is described as: 
-\begin{equation}
-	\vec{p} = \vec{o} + t\cdot\vec{d}
-	\label{eq:1}
-\end{equation}
-Where $\vec{o}$ represents the origin of the ray and $\vec{d}$ represents its direction. A geometry primitive like sphere is the set of points at a given distance \textit{r} from a center point $\vec{c}$. It's easily expressed in vector form:
-\begin{equation}
-	(\vec{x} - \vec{c})^2 = r^2
-	\label{eq:2}
-\end{equation}
-The equation of intersection points of the above ray and sphere can be substituted using \eref{eq:1} and \eref{eq:2}:
-\begin{equation}
-	(\vec{o} + t\vec{d} - \vec{c})^2 = r^2
-\end{equation}
-\begin{equation}
-	(\vec{o} - \vec{c})^2 + 2t(\vec{o} - \vec{c})\cdot\vec{d} + t^2\cdot\vec{d}^2 = r^2
-\end{equation}
-As a result, the \textit{t} value: $t={\frac{-(2(\vec{o} - \vec{c})\cdot\vec{d})\pm\sqrt{(2(\vec{o} - \vec{c})\cdot\vec{d})^2-4((\vec{o} - \vec{c})^2-r^2)}}{2}}$.
+In the third stage the roles change on the CWMP level. The HTTP-response for the empty HTTP-request by the device will contain a CWMP-request from the ACS. This will subsequently be followed by an HTTP-request containing a CWMP-response for the previous CWMP-request. Multiple orders may be transmitted one-by-one. This stage (and the whole provisioning session) is terminated by an empty HTTP-response from the ACS indicating that no more orders are pending.
 
-%----------------------------------------------------------------------------------------
-\section{Programming Model Overview}
-As stated in the last section, OptiX programming model is constituted by the host code and the GPU device programs. This section gives an overview of these objects, programs and variables defined on CPU and executed on GPU. Note that models related to rendering concerns were not employed in our MC simulation, only the used ones will be presented and detailed in this report.
 
-%----------------------------------------------------------------------------------------
 
-\subsection{Host Models}
-%------------------------------------
-\begin{itemize}
-  \item \textbf{Context:} The top object includes all other models in OptiX. Each \textit{Context} is an instance of the ray tracer.
-  \item \textbf{Program:} An interface between user-defined codes and the eight OptiX device programs.
-  \item \textbf{Variable:} A label used in communications between CPU and GPU. It must be bound to a \textit{Buffer}.
-  \item \textbf{Buffer:} A multidimensional (host$\Leftrightarrow$device, CUDA$\Leftrightarrow$OptiX, OpenGL$\Leftrightarrow$OptiX, Direct3D$\Leftrightarrow$OptiX) array that transforms a \textit{Variable}.
-  \item \textbf{Geometry:} Meshes or user-defined primitive that can be attached to multiple \textit{Materials} to handle multiple ray types (or interactions in MODERATO).
-  \item \textbf{Material:} A container of \textit{Any Hit Program} and \textit{Closest Hit Program} attached to a specified OptiX ray.
-  \item \textbf{GeometryInstance:} A combination of \textit{Geometry} and \textit{Material} objects.
-  \item \textbf{GeometryGroup:} A set of \textit{GeometryInstance} objects.
-  \item \textbf{Acceleration:} A structure which is bound to a \textit{GeometryGroup} and provides automatic accelerations.
-\end{itemize}
-%------------------------------------
-Further information on these objects will be detailed in \sref{host}.
-%----------------------------------------------------------------------------------------
+\subsubsection{Security and authentication}
+As vital data (like user names and passwords) may be transmitted to CPE via CWMP, it is essential to provide secure transport channel and always authenticate the CPE against the ACS. Secure transport and authentication of the ACS identity can easily be provided by usage of HTTPS and verification of ACS certificate. Authentication of the CPE is more problematic. The identity of the device is verified based on a shared secret (password) at the HTTP level. Passwords may be negotiated between the parties (CPE-ACS) at every provisioning session. When the device contacts the ACS for the first time (or after a factory-reset) default passwords are used. In large networks it is the responsibility of the procurement to ensure each device is using unique credentials, their list is delivered with the devices themselves and secured.
 
-\subsection{Device Programs}
-%------------------------------------
-\begin{itemize}
-  \item \textbf{Ray Generation Program:} The entry point into the device-side ray tracing pipeline; where the radiation source in MODERATO is modeled.
-  \item \textbf{Exception Program:} Program triggered while stack overflow or other errors, employed only for debug.
-  \item \textbf{Closest Hit Program:} Handle calculations at the nearest intersection point, invoked by our MODERATO implementation to update cross-sections, create and trace new photons, etc.
-  \item \textbf{Any Hit Program:} Called whenever a traced ray finds a new potential intersection point, unapplied in our implementation.
-  \item \textbf{Intersection Program:} Where intersection detections take place, passing new free-path to Closest Hit Program in our implementation.
-  \item \textbf{Bounding Box Program:} User-programmed bounding box, invoked during acceleration.
-  \item \textbf{Miss Program:} Killing a traced ray when it misses all geometry primitives, unapplied in our implementation for performance concern.
-\end{itemize}
-%------------------------------------
-\textit{PTX} is a virtual assembly language that can be easily interpreted by hardware architectures and requires no further compilation \citep{Reference2}. All OptiX \textit{Programs} must be compiled to \textit{.ptx} files in order to be combined with their host objects. These programs are further detailed in \sref{device}.
-%----------------------------------------------------------------------------------------
 
-\subsection{OptiX Ray Type}
-OptiX \textit{Ray} is an encapsulation of a ray mathematical entity which is contained within the \textit{optix::} namespace. Except for some ray properties pre-defined within this object, every \textit{Ray} carries an user-defined \textit{rtRayPayload}. This payload contains variables we need for the following data processing. In our implementation of MODERATO, for example, it includes cross-section ratios, current free-path, photon energy, interaction counter, etc. Note that only an OptiX \textit{Ray} object can be accepted as an argument of \textit{rtTrace} function.
+\subsubsection{Connection request}
 
-In order to take full advantages of pre-defined properties and avoid reloading them in a ray payload (which may degrade ray tracing performance), public attributes of OptiX \textit{Ray} are listed as follows:
-\begin{lstlisting}[mathescape]
-    /*	The origin of the ray; note that float3 is a CUDA	*  
-     *	variable that corresponds to Vec3d in MODERATO.		*/
-    float3 origin;
-    
-    float3 direction; // The direction of the ray
-    
-    unsigned int ray_type; // The ray type associated with this ray
-    
-    // The min and max extents associated with this ray
-    float tmin;
-    float tmax;
-\end{lstlisting}
+The following example\fref{fig:connectionrequest} illustrates how CWMP works. The scenario: There are two ACSs, active and standby in an area. The active ACS needs to restart for system upgrade. To ensure a continuous monitoring of the CPE, the active ACS needs to let all the CPE in the area connect to the standby ACS. The whole process is as follows:
 
-%----------------------------------------------------------------------------------------
-
-\subsection{Internally Provided Semantics}
-%----------------------------------------------------------------------------
-\begin{figure}[htbp]
-	%\centering 
-		\includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{Figures/semantics.png}
-	\caption[Internal semantics provided by OptiX]{Internal semantics provided by OptiX \citep{Reference6}.}%
-	\label{fig:semantics}
-\end{figure}
-%----------------------------------------------------------------------------
-Certain variables can be frequently invoked by all eight OptiX programs. For example, a \textit{Ray} generated by \textit{Ray Generation Program} would be processed everywhere in the ray tracing pipeline: in \textit{Closest Hit Program} for changing direction, in \textit{Intersection Program} for finding potential interfaces, etc. Under the condition of large-scale parallelism, a global access to such variables without thread conflicts will be highly appreciated. To make it simple, OptiX manages several internal semantics for this program-variable binding. \fref{fig:semantics} summarizes in which types of program these semantics are available, along with their access rules from device programs \citep{optixref}.
-
-%----------------------------------------------------------------------------------------
-
-\section{Host Object Model}
-\label{host}
-Source code examples in either \textit{OptiX Programming Guide} or \textit{OptiX Quickstart Guide} only concern on C API of OptiX. As a result, in order to be familiar with the C++ wrapper and integrate OptiX in an existing object-oriented implementation, it's highly recommended to consult OptiX SDK and \textit{OptiX API Reference}. OptiX SDK provides various source code samples and is installed in the root directory by default.
-
-%----------------------------------------------------------------------------------------
-
-\subsection{Context}
-\textit{Context} is the top node among the whole OptiX hierarchy. It encapsulates all resources for subsequent ray tracing control flows. Creation and destruction of this object are simple:
-\begin{lstlisting}[mathescape]
-    optix::Context context = Context::create();  // Setup context
-
-    /* In MODERATO, we define that there are two types of rays. The first is normal ray, which models photons outside inspected objects. The second, called interaction ray, is responsible for representing photons that may change their energies, directions, free paths, etc.*/ 
-    context$-$>setRayTypeCount( 2 );
-    
-    /* Indicate camera numbers in traditional ray tracing algorithms, here it figures the projection source number. We could therefore handle multi$-$source situation. */
-    context$-$>setEntryPointCount( 1 );
-    .........// a lot of codes...
-    
-    context$-$>destroy();  // Clean up and invalidate all resources 
-\end{lstlisting}
-OptiX kernel launch is realized by using \textit{Context}'s public member \textit{launch}. This host instruction starts the device ray tracing pipeline. The maximum kernel size varies according to GPU card's \href{http://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#compute-capabilities}{CUDA Compute Capability} as well as their memory size. Quadro FX 1800, a card with Capability 1.1, may afford 500$\times$500 launch indices. A 2.0 card like Quadro 5000, may increase up to 1000$\times$1000. The ceiling kernel size of each card is indicated nowhere in OptiX manual. Developers should explore it based on their own implementations.
-\begin{lstlisting}[mathescape]
-    ........  // Previous code, initializations...
-    
-    // Check the given context and all of its associated OptiX objects for a valid state and create final computation kernel from the given programs
-    context$-$>validate();
-    context$-$>compile();
-    
-    /* Launch a width*height OptiX kernel for source "0" (only one source). */
-    context$-$>launch( 0, width, height );
-    
-    ......... // Collecting GPU data, post process...
-\end{lstlisting}
-Needless to say, even 1000$\times$1000 kernel is not big enough to simulate trillions of photons at the same time. We can use \textit{for} loop to achieve this purpose. Note that GPU computation has time-out concerns, simulations with a great number (billions or more, depends on the card) of photons require loops on both CPU and GPU side:
-\begin{lstlisting}[mathescape]
-    /* Launch a 1000*1000 OptiX kernel for 1000 iterations: a trillion photons created */
-    for(i=0;i<1000;i++){   
-      context$-$>launch( 0, 1000, 1000 );
-\end{lstlisting}
-%----------------------------------------------------------------------------------------
-
-\subsection{Program}
-\textit{Program} object is created from the \textit{.ptx} file. For instance, a \textit{Ray Generation Program} is defined in a CUDA file named \textit{ray.cu}.
-\begin{lstlisting}[mathescape]
-    RT_PROGRAM void ray_gen(){
-      for(i=0;i<N;i++){   
-        ... // cast photons....
-      }
-    }
-\end{lstlisting}
-After compiling \textit{ray.cu} into \textit{ray.ptx}, in the C++ main function, we establish the combination between host \textit{Program} object and device program \textit{ray\_gen} by calling \textit{createProgramFromPTXFile}.
-\begin{lstlisting}[mathescape]
-    // Set PTX file path
-    std::string ptx_path( ptxPath( "ray" ) );
-    
-    // create host object "ray_gen_program" with device program "ray_gen"
-    optix::Program ray_gen_program = context->createProgramFromPTXFile( ptx_path, "ray_gen" );
-    
-    // void optix::ContextObj::setRayGenerationProgram ( unsigned int entry_point_index, Program program )
-    context$-$>setRayGenerationProgram( 0, ray_gen_program );
-\end{lstlisting}
-
-%----------------------------------------------------------------------------------------
-
-\subsection{Variable and Buffer}
-OptiX \textit{Variable} and \textit{Buffer} pass data between the host and the device. Communication of general variable types has been encapsulated within context's [ ] operator. In particular, transmission of tables or other special variable types will be implemented in another way:
-\begin{lstlisting}[mathescape]
-    // General types transfered by using [ ] operator
-    context["ThetaMax"]$-$>setFloat( 4.f * 3.14159f/180 );
-    context["O_source"]$-$>setFloat( 0.0f, 0.0f, 55.f );
-    context["sphere"]$-$>setFloat( 0.f, 0.f, 0.f, 50.f );
-    
-    optix::Variable output = context["output"]; // a 1D table
-    // A 1D table with 15 user-format elements
-    optix::Buffer output_buffer = context$-$>createBuffer( RT_BUFFER_INPUT_OUTPUT, RT_FORMAT_USER, 15 );
-    // User-format: unsigned long long int
-    output_buffer$-$>setElementSize(sizeof(unsigned long long int)); 
-    // Warning: must be bound to a Buffer. 
-    output$-$>set(output_buffer);
-
-    ...... // Kernel launch, device calculation, etc...
-        
-    // Then, we use map to collect data from GPU
-    void* o_data = output_buffer$-$>map();
-    unsigned long long int* result = (unsigned long long int*) o_data;
-\end{lstlisting}
-Within CUDA files, these global variables are declared just after header files:
-\begin{lstlisting}[mathescape]
-    #include ....
-    
-    // Accessible to all Programs within the file
-    rtDeclareVariable(float,			ThetaMax, , );
-    rtDeclareVariable(float3,			O_source, , );
-    rtDeclareVariable(float4,			sphere, , );
-    rtBuffer<unsigned long long int, 1>		output_buffer;
-\end{lstlisting}
-%----------------------------------------------------------------------------------------
-
-\subsection{Geometry}
-A \textit{Geometry} offers an interface to combine geometry representation with the ray tracing mechanism. This host object just passes setup parameters to its corresponding device \textit{Intersection Program} and \textit{Bounding Box Program}. It's only on the device that we describe geometry primitives and determine potential intersection points.
-\begin{lstlisting}[mathescape]
-    // Search device programs in the "object.ptx" (compiled from "object.cu") file
-    std::string ptx_path( ptxPath( "object" ) );
-    Geometry sphere = context$-$>createGeometry();
-    // There is only one sphere in our case
-    sphere$-$>setPrimitiveCount( 1u );
-    
-    // Set bounding box with the program named "bounds" in the "object.ptx"
-    sphere$-$>setBoundingBoxProgram(context$-$>createProgramFromPTXFile(ptx_path,"bounds"));
-    // "intersect" program establishes sphere description and intersection
-    sphere$-$>setIntersectionProgram(context$-$>createProgramFromPTXFile(ptx_path,"intersect"));
-
-    // Sphere parameter: origin (0,0,0) and radius=50
-    sphere["sphere"]$-$>setFloat( 0.f, 0.f, 0.f, 50.f );
-\end{lstlisting}
-
-%----------------------------------------------------------------------------------------
-
-\subsection{Material}
-A \textit{Material} encapsulates the actions when a photon intersects a primitive or reaches the end of its current free-path. Two types of \textit{Hit Programs} can be assigned to a \textit{Material}, but only \textit{Closest Hit Program} is employed in our implementation. It is important to note that \textit{Hit Programs} are bound to \textit{Materials} per ray type, which means each \textit{Material} can actually hold more than one \textit{Closest Hit Program} \cite{Reference6}.
-\begin{lstlisting}[mathescape]
-    // Hit Program is situated in "object.ptx"
-    std::string ptx_path( ptxPath( "object" ) );
-    Material matl = context$-$>createMaterial();
-    Program ch = context$-$>createProgramFromPTXFile( ptx_path, "closest_hit" );
-    /* The Hit Program corresponds to ray type 0 (normal ray), more programs can be held:
-     * matl$-$>setClosestHitProgram( 1, ch1 );
-     * matl$-$>setClosestHitProgram( 2, ch2 ); */
-    matl$-$>setClosestHitProgram( 0, ch );
-\end{lstlisting}
-
-%----------------------------------------------------------------------------------------
-
-\subsection{GeometryInstance}
-A \textit{GeometryInstance} represents a coupling of a single \textit{Geometry} with a set of \textit{Materials}. Note that multiple geometry instances are allowed to refer to a single geometry object, enabling a geometric object with different materials. Likewise, materials can be reused between different geometry instances.
-\begin{lstlisting}[mathescape]
-    // Create object with 1 geometry and 2 materials
-    GeometryInstance object = context$-$>createGeometryInstance(); 
-    object$-$>setGeometry( sphere );
-
-    object$-$>setMaterialCount( 2 );
-    // One material corresponds to the normal ray
-    object$-$>setMaterial( 0, sphere_matl );
-    // Another for interaction ray
-    object$-$>setMaterial( 1, interaction_matl );
-\end{lstlisting}
-
-%----------------------------------------------------------------------------------------
-
-\subsection{GeometryGroup}
-A \textit{GeometryGroup} contains all \textit{GeometryInstances} in a test scene. In our first test MODERATO, for example, it represents a collection of an inspected sphere-object and a detector in parallelogram:
-\begin{lstlisting}[mathescape]
-    // Place all in geometry group
-    GeometryGroup geometrygroup = context$-$>createGeometryGroup();
-    geometrygroup$-$>setChildCount( 2 );
-    // object and detector are GeometryInstances defined before
-    geometrygroup$-$>setChild( 0, object );
-    geometrygroup$-$>setChild( 1, detector );
-\end{lstlisting}
-
-%----------------------------------------------------------------------------------------
-
-\subsection{Acceleration}
-\textit{Acceleration} structures are important for speeding up the ray tracing process. Generally speaking, they decompose the hierarchical scene geometries into several basic boxes and cull non-intersection regions of space at the very beginning of the trace. The traversal is therefore accelerated by querying less geometries.
-
-There are many different types of acceleration structures, each with their own advantages and drawbacks (\aref{AppendixB}). Note that no single type of acceleration structure is optimal for all scenes, it's developers themselves who find the best choice for their own implementations. Comparison among different structures for MODERATO test will be discussed in \sref{acc}.
-\begin{lstlisting}[mathescape]
-    /* Set acceleration with a "Bvh" builder and a "BvhCompact" traverser.
-     * More details on introduction of OptiX acceleration structures see AppendixB */
-    geometrygroup$-$>setAcceleration( context$-$>createAcceleration("Bvh","BvhCompact") );
-\end{lstlisting}
-
-%----------------------------------------------------------------------------------------
-\section{Device OptiX Programs}
-\label{device}
-%----------------------------------------------------------------------------------------
-
-\subsection{Ray Generation Program}
-The following example implements a simple ray generation model. Each ray is generated by host-defined origin and direction with tmin=scene\_epsilon, tmax=RT\_DEFAULT\_MAX. The nature of these rays is "normal\_ray". Then, the user-defined payload will be charged with several photon characteristics: energy, diffusion counter, cross-section, etc. \textit{rtTrace} initialize the trace with a coupling of one ray and one payload.
-\begin{lstlisting}[mathescape]
-    // A user defined payload
-    struct Photon{
-      float3 S;			//S1, S2, S3
-      float  energy;		// Photon energy
-      int    nDiffusions;	// Diffusion counter
-      ...
-    };
-    
-    // Variables passed from the host side
-    rtDeclareVariable(unsigned int,	normal_ray, , );
-    rtDeclareVariable(float,		scene_epsilon, , );
-    rtDeclareVariable(float3,		ray_origin, , );
-    rtDeclareVariable(float3,		ray_direction, , );
-    rtDeclareVariable(rtObject,		top_object, , );
-    
-    RT_PROGRAM void ray_gen(){   
-      optix::Ray ray = optix::make_Ray(ray_origin, ray_direction, normal_ray, scene_epsilon, RT_DEFAULT_MAX);
-      
-      Photon payload;
-      payload.energy = 1.f;
-      payload.nDiffusions = 0;
-      ...
-      rtTrace(top_object, ray, payload);
-    }
-\end{lstlisting}
-%----------------------------------------------------------------------------------------
-
-\subsection{Exception Program}
-\textit{Exception Program} is invoked when OptiX kernel encounters errors. The information provided by this program would be useful for debug. So as to have better tracing performance, however, it can be removed after application development.
-\begin{lstlisting}[mathescape]
-    rtDeclareVariable(uint2, launch_index, rtLaunchIndex, );
-    
-    RT_PROGRAM void exception()
-    {
-      const unsigned int code = rtGetExceptionCode();
-      rtPrintf( "Caught exception 0x%X at launch index (%d,%d)\n", code, launch_index.x, launch_index.y );
-    }
-\end{lstlisting}
-
-%----------------------------------------------------------------------------------------
-
-\subsection{Closest Hit Program}
-\textit{Closest Hit Program} is in charge of updating photon properties in our MODERATO implementation. Only in this program can we launch new rays (which means update randomly free-path, direction, interaction types, energy, etc.) and trace it.
-\begin{lstlisting}[mathescape]
-    rtDeclareVariable(float, t_hit,	rtIntersectionDistance, );
-    rtDeclareVariable(Photon,  pd,	rtPayload, );
-    
-    RT_PROGRAM void closest_hit(){
-      // Determine intersection point and change direction
-      float3 hit_point = ray.origin + t_hit * ray.direction;
-      new_direction = make_float3...
-
-      pd.energy...  // Other updates
-
-      // Launch a new ray at hit point and trace it
-      optix::Ray new_ray(hit_point, new_direction, normal_type, scene_epsilon, RT_DEFAULT_MAX);
-      rtTrace(top_object, new_ray, pd);
-    }
-\end{lstlisting}
-
-%----------------------------------------------------------------------------------------
-
-\subsection{Any Hit Program}
-An \textit{Any Hit Program} is called wherever ray tracer finds an intersection point. It's necessary to point out that for all intersections along a cast ray, \textit{Any Hit Program} corresponding to each intersection point won't be invoked in order. In MODERATO, it's expected to find nearest intersection point, take update actions and launch the new ray. Unfortunately, \textit{Any Hit Program} matches none of these features because \textit{rtTrace} is only available in \textit{Ray Generation Program} and \textit{Closest Hit Program}. Furthermore, disabling useless programs contributes to better computing performance. Consequently, this program was not applied in our implementation.
-
-However, \textit{Any Hit Program} could be very practical for the 2D1D neutronic simulation, where neutrons traversing geometries without changing direction or other properties in each intersection point are expected to be recorded. The problem of intersection sort will come into focus in this situation.
-
-%----------------------------------------------------------------------------------------
-
-\subsection{Intersection Program}
-Code examples of a sphere \textit{Intersection Program} are presented in this sub-section. They demonstrate how to build a simple analytic geometry and query its ray-object intersections. 
-
-Once the intersection program has determined the \textit{t} value of a ray-primitive intersection, it must report the result by calling a pair of OptiX functions, \textit{rtPotentialIntersection} and \textit{rtReportIntersection}. Note that another semantic, \textit{attribute}, is employed in this program. It's used to pass variables from \textit{Intersection Program} to \textit{Hit Programs}. Attrbute variables can only be written in \textit{Intersection Program} and only be placed between these two functions. In the example below, \textit{attribute distance} will be sent to \textit{Closest Hit Programs} for signalizing photons' traverse distance within sphere: 
-\begin{lstlisting}[mathescape]
-    rtDeclareVariable( float4,		sphere, , );
-    rtDeclareVariable( optix::Ray, ray,	rtCurrentRay, );
-    rtDeclareVariable( float, distance,	attribute distance, );
-
-    // Intersection for sphere geometry
-    RT_PROGRAM void intersect(int primIdx){
-      float3 center = make_float3(sphere);
-      float3 O = ray.origin $-$ center;
-      float3 D = ray.direction;
-      float radius = sphere.w;
-
-      // analytic sphere solution
-      // float a = dot(D, D); useless since direction is normalized, a=1
-      float b = 2*dot(O, D);
-      float c = dot(O, O)$-$radius*radius;
-      float disc = b*b$-$4*c;
-
-     // If there are two different intersections, we ignore the case with only one intersection
-     if( disc > 0 ){
-        float sdisc = sqrtf(disc);
-        float tmin = ($-$b $-$ sdisc)/2;
-        float tmax = ($-$b + sdisc)/2;
-
-        // tmin will be surely nearest potential point, so we report it
-        if( rtPotentialIntersection(tmin) ) {
-          // Attribute data between rtPotentialIntersection and rtReportIntersection
-          distance = (tmax $-$ tmin);
-          // Call closest hit
-          rtReportIntersection(0);
-        } 
-      } // if( disc >= 0 )
-    } // intersection program
-\end{lstlisting}
-%----------------------------------------------------------------------------------------
-
-\subsection{Bounding Box Program}
-A \textit{Bounding Box Program} describes the minimal three dimensional axis-aligned cube that contains the geometry. The idea is to find out a primitive's minimum and maximum value in each dimension and create two points with three maximums and three minimums respectively. A cube formed by these two vertices is therefore the geometry's bounding box. We take an example of a sphere primitive:
-\begin{lstlisting}[mathescape]
-    rtDeclareVariable( float4, sphere, , );
-    
-    // Bounding box for sphere geometry
-    RT_PROGRAM void bounds (int, float result[6])
-    {
-      const float3 cen = make_float3( sphere );
-      const float3 rad = make_float3( sphere.w );
-
-      // Axis-aligned bounding box
-      optix::Aabb* aabb = (optix::Aabb*)result;
-  
-      if( rad.x > 0.0f  && !isinf(rad.x) ) {
-        // first vertex with three minimums
-        aabb$-$>m_min = cen $-$ rad;
-        // second vertex with three maximums
-        aabb$-$>m_max = cen + rad;
-      } else {
-        aabb$-$>invalidate();
-      }
-    }
-\end{lstlisting}
-%----------------------------------------------------------------------------------------
-
-\section{CURAND: RNG on GPUs }
-The CURAND library provides efficient pseudo-random and quasi-random number generators on GPUs. It's a RNG (Random Number Generator) API extremely optimized for GPU environment. According to the development group, the latest CURAND 6.0 performs up to 75x more powerful than Intel MKL \citep{cuda6report} (\fref{fig:curandmkl}).
-%-------------------------------------------------------------------
 \begin{figure}[htbp]
 	\centering
-		\includegraphics[width=13cm]{Figures/curand1.png}
-	\caption[CURAND vs. MKL]{CURAND vs. MKL \citep{cuda6report}.}%
-	\label{fig:curandmkl}
+		\includegraphics[width=9.5cm]{Figures/connection_request.png}
+	\caption[CWMP Connection Scenario]{CWMP Connection Scenario}
+	\label{fig:connectionrequest}
 \end{figure}
 
-CURAND encapsulates several popular PRNGs. Regardless of their difference on statistical properties, the standard XORWOW has the best performance (\fref{fig:curand}). Another PRNG highly recommended by developers is MRG32K3A. This generator preserves good statistic quality as well as satisfied performance. The most famous Mersenne Twister MTGP32 is widely used for scientific computing at present. Even if it maintains an impressively long period, its relatively poor efficiency on GPUs should always be taken into considerations for performance concerns. These three generators will be evaluated for our MODERATO implementation in the following of this section.
-\vspace{1cm}
-%-------------------------------------------------------------------
+\begin{enumerate}
+  \item Establish a TCP connection
+  \item SSL initiation, and establish a security mechanism
+  \item The CPE sends an Inform request message to initiate a CWMP connection. The Inform message carries the reason for sending this message in the Eventcode field. In this example, the reason is “6 CONNECTION REQUEST”, indicating that the ACS requires the CPE to establish a connection.
+  \item If the CPE passes the authentication of the ACS, the ACS returns an Inform response, and the connection is established.
+  \item Receiving the Inform response, the CPE sends an empty message if it has no other requests. The CPE does this in order to comply with the request/reply interaction model of HTTP, in which CWMP messages are conveyed.
+  \item The ACS queries the value of the ACS URL set on the CPE.
+  \item The CPE replies the ACS with the obtained value of the ACS URL.
+  \item The ACS finds that its local URL value is the same as the value of the ACS URL on the CPE. Therefore, the ACS sends a Set request to the CPE to modify the ACS URL value of the CPE as the URL of the standby ACS.
+  \item The setting succeeds and the CPE sends a response.
+  \item The ACS sends an empty message to notify the CPE that it has no other requests.
+  \item The CPE closes the connection.
+\end{enumerate}
+
+After this, the CPE will initiate a connection to the standby ACS.
+
+\subsubsection{CR over NAT}
+The CWMP protocol also defines a mechanism for reaching the devices that are connected behind NAT (e.g. IP-Phones, Set-top boxes). This mechanism, based on STUN and UDP NAT traversal, is defined in document TR-069 Annex G (formerly in TR-111).
+
+Amendment 5 of the protocol introduces alternative method of executing Connection Request via NAT based on XMPP (see Annex K of TR-069 Amendment 5 for details).
+
+
+\subsection{Data Model}
+The Broadband Forum defines several data models for use with the CPE WAN Management Protocol (TR-069 Amendment 5). These data models contain objects and parameters that describe the many different functions and capabilities available to devices and services that are manageable via CWMP.
+
+CWMP data models are divided into two types: Root and Service. The root data model, Device1, is used to describe the major functions of a network aware device, including interfaces, software/firmware, diagnostics, components common to CWMP and other services, and the basic device information necessary to CWMP.
+
+Service data models describe modular functionality that allow the extension of the root data model on a device (under Device.Services.) to provide particular services, such as a voice service, set top box service, network attached storage, etc.
+
+Each data model is defined by a Name:Version syntax. A device defines its data model by defining a device type, an XML document that maps to (imports) BBF official data model objects and/or vendor specific objects. A full explanation of how to develop compliant CWMP data models can be found in TR-154.
+
+%--------------------------------------
+Most of the configuration and diagnostics is performed through setting and retrieving the value of the device parameters. These are organized in a well defined hierarchical structure that is more or less common to all device models and manufacturers. Broadband Forum publishes its data model standards in two formats - XML files containing a detailed specification of each subsequent data model and all of the changes between their versions and PDF files containing human-readable details. Supported standards and extensions should be clearly marked in the device data model. This should be in the field Device.DeviceSummary or InternetGatewayDevice.DeviceSummary which is required starting from Device:1.0 and InternetGatewayDevice:1.1 respectively. If the field is not found InternetGatewayDevice:1.0 is implied. As of Device:1.4 and InternetGatewayDevice:1.6 new field ( \'<RO>\'.SupportedDatamodel) for supported standard specification was introduced.
+
+The model is always rooted in the single key named Device or InternetGatewayDevice depending on the manufacturer's choice. At each level of the structure objects and parameters (or array-instances) are allowed. Keys are constructed by concatenating the names of objects and parameter using '.'(dot) as a separator, e.g. InternetGatewayDevice.Time.NTPServer1 .
+
+Each of the parameters may be marked as writable or non-writable. This is reported by the device in GetParameterNamesResponse message. The device should not permit the change of any parameter marked as read-only. Data model specifications and extensions clearly mark required status of most of the parameters.
+
+Values applicable for the parameter, their type and meaning are also precisely defined by the standard.
+
+\textbf{Multi-instance objects} :Some parts of the data model require the existence of multiple copies of the subtree. The best examples are those describing tables, e.g. Port Forwarding Table. An object representing an array will only have instance numbers or alias names as its children.
+
+A multi-instance object may be writable (enabling dynamic creation and/or removal of its children) or read-only depending on the data represented. If for example the object represents four physical ports on a switch it should not be possible to add or remove them from the data model. If an instance is added to an object an identifier is assigned. After being assigned, identifiers may not change during the life-cycle of the device except for factory-reset.
+%------------------------------------------------------------------------------------------------------------
+\section{Mios}
+MiOS, LTD. is a global software and hardware company represented in over 60 countries, and focused on developing and distributing advanced control and monitoring solutions for the home and small enterprise markets. Founded in 2008, MiOS has created the technology platform that bridges many different devices to produce hardware and software solutions for home control networks. Now in its fifth generation, the MiOS platform allows users to remotely control, monitor and automate their households and businesses with products that are currently available from any vendor.
+
+At January 6th, 2014. MiOS has been selected as the platform partner for Orange’s Smart Home initiative. This announcement followed a successful launch with MiOS as the platform for Orange Poland’s Smart Home program.  The Orange initiative will be initially offered in several countries in Europe.
+
+\subsection{Luup}
+Luup (Lua-UPnP) is Mi Casa Verde(Mios)’s new software engine which incorporates \textit{Lua}, a popular scripting language, and \textit{UPnP}, the industry standard way to control devices. Vera is built on Luup.
+
+On this platform, since the API includes drivers for Z-Wave, Insteon, etc., and talks to infrared and serial devices, home automation is the first thing that we can do on Luup. However Lua is a full-featured language and not limited just to scripting. Also, we can write modules in C/C++ that run on Vera, which the main Luup engine will also aggregate and control.
+
+\subsection{MMS}
+To be complted
+%----------------------------------------------------------------------------------------------------------------
+\section{NAT Traversal}
+NAT traversal is a computer networking methodology with the goal to establish and maintain Internet protocol connections across gateways that implement network address translation (NAT). NAT breaks the principle of end-to-end connectivity originally envisioned in the design of the Internet.
+
+NAT traversal techniques are required for certain client-to-client network applications, such as peer-to-peer file sharing and Voice over IP.\cite{stiemerling2008nat}
+
+%----------------------------------------------------------------------------------------------------------------
+
+\subsection{Principals}
+
+Many techniques exist, but no single method works in every situation since NAT behavior is not standardized. Many NAT traversal techniques require assistance from a server at a publicly routable IP address\cite{rosenberg2003stun}. Some methods use the server only when establishing the connection, while others are based on relaying all data through it, which adds bandwidth costs and increases latency, detrimental to real-time voice and video communications.
+
+NAT devices are commonly used to alleviate IPv4 address exhaustion\cite{alqahtaniipv4} by allowing the use of private IP addresses on home and corporate networks behind routers with a single public IP address facing the public Internet. The internal network devices communicate with hosts on the external network by changing the source address of outgoing requests to that of the NAT device and relaying replies back to the originating device.
+%----------------------------------------------------------------------------------------------------------------
+\subsection{UPnP IGD}
+
+Universal Plug and Play (UPnP)\cite{jeronimo2003upnp} is a set of networking protocols that permits networked devices, such as personal computers, printers, Internet gateways, Wi-Fi access points and mobile devices to seamlessly discover each other's presence on the network and establish functional network services for data sharing, communications, and entertainment. UPnP is intended primarily for residential networks without enterprise-class devices.
+
+The UPnP technology is promoted by the UPnP Forum, a computer industry initiative to enable simple and robust connectivity to stand-alone devices and personal computers from many different vendors. The Forum consists of over eight hundred vendors involved in everything from consumer electronics to network computing.
+
+The concept of UPnP is an extension of plug-and-play, a technology for dynamically attaching devices directly to a computer, although UPnP is not directly related to the earlier plug-and-play technology. UPnP devices are "plug-and-play" in that when connected to a network they automatically establish working configurations with other devices.
+
+Internet Gateway Device (IGD) Standardized Device Control Protocol is a protocol for mapping ports in network address translation (NAT) setups, supported by a certain number of NAT-enabled routers.\cite{wing2013p} It is a common communications protocol of automatically configuring port forwarding, and is part of an ISO/IEC Standard \cite{sherwin2009upnp} rather than an Internet Engineering Task Force standard.
+
+Applications using peer-to-peer networks, multiplayer gaming, and remote assistance programs need a way to communicate through home and business gateways. Without IGD one has to manually configure the gateway to allow traffic through, a process which is error prone and time consuming. Universal Plug and Play (UPnP) comes with a solution for network address translation traversal.
+
+IGD makes it easy to do the following:
+
+\begin{itemize}
+  \item Learn the public (external) IP address
+  \item Requesting for a new public IP address\cite{srisuresh1999ip}
+  \item Enumerate existing port mappings
+  \item Add and remove port mappings
+  \item Assign lease times to mappings
+\end{itemize}
+%----------------------------------------------------------------------------------------------------------------
+\subsection{STUN}
+
 \begin{figure}[htbp]
 	\centering
-		\includegraphics[width=13cm]{Figures/curand2.png}
-	\caption[CURAND high performance RNGs]{CURAND high performance RNGs \citep{cuda6report}.}%
-	\label{fig:curand}
+		\includegraphics[width=9.5cm]{Figures/STUN_Algorithm.png}
+	\caption[STUN Algorithm to track the Public Address]{STUN Algorithm to track the Public Address}
+	\label{fig:stunalgorithm}
 \end{figure}
-%-------------------------------------------------------------------
-
-%----------------------------------------------------------------------------------------
-
-\subsection{Mersenne Twister: MTGP32}
-Mersenne Twister (MT) is one of the most widely used PRNG at the moment \citep{marsland2011machine}. MTGP32 is its variant optimized for GPUs. Just like the standard MT19937, MTGP32 has a very long period of $2^{19937}-1$, but it appears to be its only advantage.
-
-The major drawback is that MTGP32 is fairly slow compared to other PRNGs: nearly three times more sluggish than other generators (\fref{fig:curand}). Moreover, it requires a very large state (624 words), which makes it memory-expensive if you want a random number sequence for each thread where you have tens of thousands of threads. Furthermore, these states heavily stress the GPU cache as well. MT's statistical property bring it grand reputation, however, it doesn't manage to pass all tests of TestU01 (Empirical statistical testing of uniform random number generators by L'Ecuyer) \citep{lecuyer}. 
-
-As for an initial state with many zeros, MTGP32 will spend a long time on turning the state into output that passes randomness tests. \fref{fig:manyzeros} shows a test presented by L'Ecuyer: he initializes the state with a single bit at 1. The mean of uniform random outputs is badly deviated until 700000 iterations. Any developers who try to use MT in their implementations should pay attention to this issue.
-%-------------------------------------------------------------------
-\begin{figure}[htbp]
-	\centering
-		\includegraphics[width=13cm]{Figures/manyzeros.png}
-	\caption[Initial state with a single bit at 1]{Initial state with a single bit at 1 \citep{lecuyer}.}
-	\label{fig:manyzeros}
-\end{figure}
-%-------------------------------------------------------------------
-
-Another point mentioned by CURAND tutorial is that MTGP32 is closely tied to the thread and block count and the most efficient use of MTGP32 is to generate a multiple of 16384 samples \citep{curand}. Unfortunately, OptiX has no thread control; the number of block is automatically distributed and optimized by the API. Hence MTGP32 might be neither safe nor efficient in OptiX. In conclusion, MTGP32 is not an efficient choice for our OptiX implementation.
-
-%----------------------------------------------------------------------------------------
-
-\subsection{Combined Multiple Recursive RNG: MRG32K3A}
-MRG32K3A is a combined multiple-recursive generator with a period of $2^{191}$ \citep{l1999good}. It performs slightly slower than the fastest XORWOW (\fref{fig:curand}). However, it's one of the few generators recommended by L'Ecuyer since it passes all TestU01 randomness tests \cite{lecuyer}. 
-
-An initial OptiX implementation was tested with this RNG. The result was not conclusive: output number sequences from different threads would produce repeatedly a certain value. This may signalize that different threads share a same state and MRG32K3A is sensitive to thread-safety. Debug of OptiX can be rather difficult for any problems related to thread control and the bug hasn't been solved yet.
-
-%----------------------------------------------------------------------------------------
-
-\subsection{XOR-Shift RNG: XORWOW}
-XORWOW is the default generator type in CURAND with a period of $2^{192}-2^{32}$. It rapidly produces random numbers with efficient xor-shift operations, which contributes to its competitive performance against other RNGs. L'Ecuyer figured out that XORWOW is rejected by TestU01 \citep{l1999good}. Saito and Matsumoto conducted a deeper investigation to explain this rejection \citep{xorwow} and found that XORWOW has a significant deviation on 6-dimensional distribution of the most significant 5 bits. It means that one may find a particular regularity between a sixth random number and its previous five ones and therefore it's not strictly stochastic. At last, they concluded that this RNG is not ideal for serious Monte Carlo simulation.
-
-The current OptiX implementation employs this RNG. Test results demonstrate that XORWOW preserve satisfied statistical characteristics since the difference between OptiX and the original code is negligible ($\approx$ $\pm$ 0.2\%, see \sref{optixperform}). Nevertheless, explorations of MRG32K3A would be taken into account in future work for serious simulations.
-
-%----------------------------------------------------------------------------------------
-
-\section{Interoperability with CUDA}
-\label{interop}
-It is often advisable to combine CUDA kernels with OptiX programs so that we can take full advantage of GPU performance. In our implementation, for instance, a CUDA kernel launched before OptiX content is responsible for initializing and seeding the CURAND RNG. Furthermore, other applications may request post-treatment of OptiX's output with CUDA. Both of these two cases require a CUDA-OptiX communication.
-
-There are two possible solutions for this interoperability. One is to ask OptiX to allocate device memory and get a pointer to data. Another is to create OptiX buffers in CUDA kernels. The first method can be used for either feeding OptiX with data or postprocessing outputs. The second one, on the contrary, can be only used for pre-calculations since OptiX will neither allocate memory nor upload data for these buffers \citep{Reference6}. But this solution is similar to transferring data with \textit{Variable} and \textit{Buffer} that are used before and therefore easier to implement. In addition, its one-way communication capability has already satisfied initialization need. So we choose the second solution in MODERATO.
-
-The use of CUDA buffers is nearly the same as normal host-device buffers:
-\begin{lstlisting}[mathescape]
-    optix::Variable states_buffer = context["states_buffer"];
-      
-    // Create an OptiX buffer for CUDA kernel         
-    optix::Buffer states = context$-$>createBufferForCUDA( RT_BUFFER_INPUT, RT_FORMAT_USER, N );
-    states$-$>setElementSize( sizeof(curandState) );
-      
-    // Allocate space for prng states on device 
-    cudaMalloc((void **)&devStates, N * sizeof(curandState));
-     
-    // State setup is complete
-    // Initialize one state per thread
-    setup_kernel<<<h, w>>>(devStates, w);
-
-    // Providing a device pointer for the CUDA$-$OptiX buffer
-    states$-$>setDevicePointer( 0, reinterpret_cast<CUdeviceptr>(devStates) );
-      
-    // Attach buffer with the corresponding variable in OptiX Program
-    states_buffer$-$>set(states);
-\end{lstlisting}
-Consult \textit{OptiX Programming Guide} for more details on getting CUDA device pointers from OptiX.
-%----------------------------------------------------------------------------------------
-
-\section{Performance Guidelines}
-In terms of OptiX performance, several precautions should be taken in order to improve ray tracing process. Even small changes in the code can dramatically alter performance. Here is a list of some essential points based on OptiX manual, developers may complete it according to their own investigations \citep{Reference6}:
-\begin{itemize}
-  \item Use floats instead of doubles since float are already sufficient for MODERATO. This also extends to the use of literals and math functions. For example, use \textit{0.5f} instead of \textit{0.5} and \textit{sinf} instead of \textit{sin} to prevent automatic type promotion. 
-  \item Compile PTX with \textit{-use-fast-math} option, it can reduce code size and increase the performance for most OptiX programs with a small decrease on accuracy. Replace standard functions with intrinsic functions when small accuracy errors are acceptable.
-  \item Each new \textit{Program} object can introduce execution divergence. Try to reuse the same program with different variable values. For example, interaction rays and normal rays in MODERATO share the same sphere \textit{Intersection Program}.
-  \item Minimize payload size and try to use a structure of arrays instead of an array of structures data. Any uninitialized variables can increase register pressure and degrade performance.
-  \item Disable useless \textit{Programs} wherever possible: \textit{Miss}, \textit{Exception} and \textit{Any Hit Program} are disabled in the MODERATO implementation.
-  \item Multiple access to global memory can be replaced by declaring local variables with much lower communication latency.
-  \item No recursion on GPUs: tremendous complexity, try to replace it by iterations.
-\end{itemize}
-%----------------------------------------------------------------------------------------
-
-\section{Programming Caveats}
-OptiX hasn't been fully developed at the moment. Hence certain errors or bugs might appear during implementation. Even if this is a CUDA based API, it's not completely compatible with all CUDA features. Following caveats should be always kept in mind to avoid unnecessary mistakes \citep{Reference6}:
-\begin{itemize}
-  \item Setting a large kernel size will consume GPU device memory. Try to minimize the stack as much as possible. Start with a small stack and with the use of an exception program that indicates you have exceeded your memory, increase the stack size until the stack is sufficiently large. This is why a 1000$\times$1000 launch was available on Quadro 5000 but not on Quadro FX 1800, since the latter has smaller memory space.
-  \item \_\_shared\_\_ memory within OptiX \textit{Programs} is forbidden.
-  \item NEVER call CUDA \textit{syncthreads()} in OptiX Programs.
-  \item CUDA threadIdx can map to multiple launch indices in OptiX. Use of OptiX \textit{rtLaunchIndex} semantic is mandatory.
-  \item Currently, OptiX is not guaranteed to be thread-safe. OptiX should therefore be used only from a single host thread.
-  \item Dynamic allocations are allowed in CUDA with 2.0 cards or greater \citep{cudaguide}, but not in OptiX Programs. Attempts to use these functions will result in an illegal symbol error.
-\end{itemize}
-
-%----------------------------------------------------------------------------------------
