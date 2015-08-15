@@ -2,14 +2,48 @@
 
 \chapter{Implementation} % Main chapter title
 
-\label{Chapter4} % For referencing the chapter elsewhere, use \ref{Chapter4} 
+\label{Chapter4} % For referencing the chapter elsewhere, use \ref{Chapter4}
 
 \lhead{Chapter 4. \emph{Implementation}} % This is for the header on each page - perhaps a shortened title
 
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.9,0.9,0.9}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+\definecolor{mybrown}{RGB}{178,34,34}
+
+%\frametitle{Inserting source code without setting typewriter}
+\lstset{language=C++,
+  backgroundcolor=\color{mygray},
+  numbers=left,                    % possible val ues are (none, left, right)
+  numbersep=-8pt,                   % how far the line-numbers are from the code
+  numberstyle=\tiny\color{mybrown}, % the style that is used for the line-numbers
+  stepnumber=1,                    % each line will be numbered
+  morekeywords={*,float3,Context,setRayTypeCount,setEntryPointCount,Material,
+  launch,createProgramFromPTXFile,create,destroy,validate,compile,map,rtObject,
+  setRayGenerationProgram,Program,setFloat,createBuffer,setElementSize,rtPrintf,
+  Variable,Buffer,set,float4,rtDeclareVariable,rtBuffer,setBoundingBoxProgram,
+  setIntersectionProgram,setPrimitiveCount,createGeometry,createMaterial,
+  setClosestHitProgram,setGeometry,setMaterial,setMaterialCount,createGeometryInstance,
+  GeometryInstance,GeometryGroup,createGeometryGroup,setChildCount,setChild,
+  setAcceleration,createAcceleration,Ray,make_Ray,rtTrace,rtGetExceptionCode,
+  rtIntersectionDistance,rtPayload,uint2,rtCurrentRay,attribute,
+  Aabb,invalidate,createBufferForCUDA,cudaMalloc,set,setDevicePointer,
+  rtPotentialIntersection,rtReportIntersection},
+  keywordstyle=\color{blue},
+  stringstyle=\color{mymauve},
+  commentstyle=\color{mygreen},
+  morecomment=[l][\color{magenta}]{\#},
+  basicstyle=\footnotesize,        % the size of the fonts that are used for the code
+  keepspaces=false,                 % keeps spaces in text, useful for keeping indentation of code
+  columns=flexible,
+  breaklines=true
+  rulesepcolor=\color{mygray},
+  rulecolor=\color{mygray}
+}
 %----------------------------------------------------------------------------------------
 
 \section{Modeling Process}
-Thanks to the flexible tracking utility employed by MODERATO, transplants of this simulation code to other ray tracing algorithms are feasible and relatively easy. Our OptiX implementation was realized without many changes of the original code. 
+Thanks to the flexible tracking utility employed by MODERATO, transplants of this simulation code to other ray tracing algorithms are feasible and relatively easy. Our OptiX implementation was realized without many changes of the original code.
 
 Moreover, our implementation doesn't cover all functionalities of MODERATO. The work aims to familiarize OptiX mechanism and explore OptiX's ray tracing potential for scientific computing, but not to perform the entire MODERATO code on GPUs. In the source model, for example, one can only generate mono-energetic photon with sphere shape.
 
@@ -20,7 +54,7 @@ In order to make the work more comprehensible, porting process of a normal MODER
 \subsection{Projection Source}
 The source model of test scenes is described with \textit{Ray Generation Program}, which corresponds to \textit{CADSource::generatePhoton()} in MODERATO. It's in this program that we create and cast photons by drawing random numbers to determine their characteristics. Note that the device side implementation is currently non-object oriented, some work has been done during the adaptation to remove the object layer. Fortunately, this part of codes is not so structured as complex geometry objects, turning it to C-like program did not need too many efforts.
 
-In spite of these "Copy-Paste" adaptations, it should be noted that some small changes have been made in order to adapt OptiX pipeline. Cross section ratios \textit{S1}, \textit{S2}, \textit{S3} were integrated by a single \textit{float3} type. \textit{Theta1}, \textit{Theta2} weren't encapsulated within payload in order to minimize payload size. Attributes like \textit{direction}, \textit{p0} (previous location), \textit{p1} (current location) and \textit{L} (current free-path) were removed since there are similar attributes already defined in the \textit{optix::Ray} object. Attempts to make full use of OptiX objects are good for performance. 
+In spite of these "Copy-Paste" adaptations, it should be noted that some small changes have been made in order to adapt OptiX pipeline. Cross section ratios \textit{S1}, \textit{S2}, \textit{S3} were integrated by a single \textit{float3} type. \textit{Theta1}, \textit{Theta2} weren't encapsulated within payload in order to minimize payload size. Attributes like \textit{direction}, \textit{p0} (previous location), \textit{p1} (current location) and \textit{L} (current free-path) were removed since there are similar attributes already defined in the \textit{optix::Ray} object. Attempts to make full use of OptiX objects are good for performance.
 
 %----------------------------------------------------------------------------------------
 
@@ -33,14 +67,14 @@ As for simple geometry types like sphere, cube or plane, there is no need to rew
     RT_PROGRAM void intersect_rod(int primIdx)
     {
       PCADComplexBREP section[3];
-      
+
       // three patches restrict CADRod borders
       section[0] = CADCylinderPatch;
       section[1] = CADDiscPatch;
       section[2] = CADDiscPatch;
-      
+
       tmin = ... // Look over all patched and find out the minimum t value
-      
+
       ... // Report tmin value and call Hit Programs
 \end{lstlisting}
 Management of complex geometries has not been completed in OptiX implementation since rewriting dynamic allocation to static takes long. Meanwhile, there is no limit to use \textit{cudaMalloc()} and \textit{cudaFree()} on the host side. In other words, we could allocate dynamically on CPUs instead of on GPUs. Therefore, such allocation problem is not so serious as we imagined before.
@@ -70,7 +104,7 @@ Note that the 64-bit integer version of \textit{atomicAdd()} is only available f
 %----------------------------------------------------------------------------------------
 
 \subsection{Using CURAND within OptiX}
-CURAND provides highly optimized RNGs for general-purposed GPU computation with a satisfying long period ($> 2^{190}$). Thanks to the CUDA/OptiX interop, we could call CURAND functions inside OptiX \textit{Programs}. 
+CURAND provides highly optimized RNGs for general-purposed GPU computation with a satisfying long period ($> 2^{190}$). Thanks to the CUDA/OptiX interop, we could call CURAND functions inside OptiX \textit{Programs}.
 
 The essential idea is to have a CUDA kernel make an array of RNG states on using CURAND device API, and then OptiX creates a \textit{CUDABuffer} around it. Device API allows random numbers to be generated and immediately consumed by kernels without requiring the random numbers to be written to and then read from global memory. With host API, however, we can only generate a fixed number of random variables before using them. \textit{curand\_uniform(\&state)} is used to do an uniform random number selection in the device \textit{Programs}:
 \begin{lstlisting}[mathescape]
@@ -83,16 +117,16 @@ The essential idea is to have a CUDA kernel make an array of RNG states on using
     }
 
     // In OptiX Program under "ray.cu" file compile to .ptx
-    RT_PROGRAM void ray_gen(){   
+    RT_PROGRAM void ray_gen(){
       for(int i = 0; i < iteration; i++){
         unsigned int idx = launch_index.x*launch_dim.y+launch_index.y;
         /* Copy state to local memory for efficiency */
         curandState localState = states_buffer[idx];
-        
+
         Phi = curand_uniform(&localState)*2*3.14159f;
         ...
-        
-        // Copy state back to global memory 
+
+        // Copy state back to global memory
         states_buffer[idx] = localState;
         ...
       }
@@ -105,7 +139,7 @@ See \sref{interop} for host side code examples. Note that CURAND doesn't support
 \subsection{Model of Photon Interactions}
 As an API initially targeted for rendering graphics, ray refraction and reflection can be certainly handled by OptiX. However, these changing direction movements all take place on geometry borders instead of inside a geometry primitive. One of our initial questions with the use of OptiX was then concentrated on its capability to model photon interactions inside an inspected object.
 \begin{figure}[htbp]
-	%\centering 
+	%\centering
 		\includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{Figures/model.png}
 	\caption{OptiX photon interaction model.}%
 	\label{fig:model}
@@ -124,9 +158,9 @@ In \textit{Normal Ray Closest Hit Program}, CURAND is employed to generate the p
 \end{lstlisting}
   }
   \item{
-Otherwise (\textit{t\_dis} $<$ \textit{pd.L}), we update particle properties and produce a new free-path to replace the former one in \textit{Normal Ray Closest Hit Program}. Then, a new ray of type \textit{interaction\_type} will be launched with an up-to-date direction at the end of the first free-path. The trick in this process is to define the ray property \textit{tmax} with the new free-path.  
+Otherwise (\textit{t\_dis} $<$ \textit{pd.L}), we update particle properties and produce a new free-path to replace the former one in \textit{Normal Ray Closest Hit Program}. Then, a new ray of type \textit{interaction\_type} will be launched with an up-to-date direction at the end of the first free-path. The trick in this process is to define the ray property \textit{tmax} with the new free-path.
 \begin{lstlisting}[mathescape]
-    // Cast new ray with interaction_type and tmax=pd.L 
+    // Cast new ray with interaction_type and tmax=pd.L
     Ray interaction_ray( hit_point, new_direction, interaction_type, scene_epsilon, pd.L );
 \end{lstlisting}
   }
@@ -144,5 +178,5 @@ As it has been indicated by \textit{CUDA Programming Guide} \citep{cudaguide}, C
 
 Actually, the main difficulty of object-oriented programming is that we should remove all dynamic allocations since it's not available on GPUs. Furthermore, this part of the code is relatively more hierarchical than other objects in MODERATO. All geometry objects locating in a file with 20000 lines of programs pressure the work as well.
 
-In a word, creating user-defined objects in OptiX is feasible. Object-oriented programming allows us to adapt more easily complex geometry objects to OptiX. 
+In a word, creating user-defined objects in OptiX is feasible. Object-oriented programming allows us to adapt more easily complex geometry objects to OptiX.
 %----------------------------------------------------------------------------------------

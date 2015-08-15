@@ -119,6 +119,17 @@ NAT traversal techniques are required for certain client-to-client network appli
 Many techniques exist, but no single method works in every situation since NAT behavior is not standardized. Many NAT traversal techniques require assistance from a server at a publicly routable IP address\cite{rosenberg2003stun}. Some methods use the server only when establishing the connection, while others are based on relaying all data through it, which adds bandwidth costs and increases latency, detrimental to real-time voice and video communications.
 
 NAT devices are commonly used to alleviate IPv4 address exhaustion\cite{alqahtaniipv4} by allowing the use of private IP addresses on home and corporate networks behind routers with a single public IP address facing the public Internet. The internal network devices communicate with hosts on the external network by changing the source address of outgoing requests to that of the NAT device and relaying replies back to the originating device.
+
+The NAT traversal techniques available are as following:
+\begin{itemize}
+  \item \textit{Socket Secure (SOCKS)} is a technology created in the early 1990s that uses proxy servers to relay traffic between networks or systems.
+  \item \textit{UPnP IGD} is supported by many small NAT gateways in home or small office settings.
+  \item \textit{Interactive Connectivity Establishment (ICE)} is a technique used in VoIP, peer-to-peer communications, video, instant messaging, and other interactive media applications. It uses Session Traversal Utilities for NAT (STUN).
+  \item \textit{Application-level gateway (ALG)} is a component of a firewall or NAT that allows for configuring NAT traversal filters.\cite{hu2005nat}
+  \item \textit{NAT hole punching} is a technique that exploits how NATs handle some protocols (for example, UDP, TCP, or ICMP) to allow previously blocked packets through the NAT.
+\end{itemize}
+
+At Orange Labs, we use \textit{UPnP IGD} and \textit{STUN}to manage NAT traversal.
 %----------------------------------------------------------------------------------------------------------------
 \subsection{UPnP IGD}
 
@@ -143,6 +154,10 @@ IGD makes it easy to do the following:
 \end{itemize}
 %----------------------------------------------------------------------------------------------------------------
 \subsection{STUN}
+STUN (Session Traversal Utilities for NAT) is a standardized set of methods and a network protocol to allow an end host to discover its public IP address if it is located behind a NAT. It is used to permit NAT traversal for applications of real-time voice, video, messaging, and other interactive IP communications. It is documented in RFC 5389\cite{rosenberg2008rfc}. The STUN URI scheme is documented in RFC 7064. STUN is intended to be a tool to be used by other protocols, such as ICE.
+
+The STUN protocol allows applications operating behind a network address translator (NAT) to discover the presence of the network address translator and to obtain the mapped (public) IP address (NAT address) and port number that the NAT has allocated for the application's User Datagram Protocol (UDP) connections to remote hosts. The protocol requires assistance from a third-party network server (STUN server) located on the opposing (public) side of the NAT, usually the public Internet.
+
 
 \begin{figure}[htbp]
 	\centering
@@ -150,3 +165,36 @@ IGD makes it easy to do the following:
 	\caption[STUN Algorithm to track the Public Address]{STUN Algorithm to track the Public Address}
 	\label{fig:stunalgorithm}
 \end{figure}
+%----------------------------------------------------------------------------------------------------------------
+\section{Homelive Box}
+
+
+%----------------------------------------------------------------------------------------------------------------
+\subsection{Hardware}
+
+\begin{figure}[htbp]
+	\centering
+		\includegraphics[width=9.5cm]{Figures/Orange-Home-Live.jpg}
+	\caption[Homelive Box of Orange]{Homelive Box of Orange}
+	\label{fig:homelivebox}
+\end{figure}
+
+\begin{center}
+\begin{table}[!hbp]
+\begin{tabular}{|c|c|}
+\hline
+\hline
+Operating System & OpenWRT \\
+\hline
+Firmware & Luup \\
+\hline
+Architecture & MIPS64 \\
+\hline
+\end{tabular}
+\caption{Homelive Box Hardware}
+\end{table}
+\end{center}
+%----------------------------------------------------------------------------------------------------------------
+\subsection{OpenWRT}
+%----------------------------------------------------------------------------------------------------------------
+\subsection{Cross-Compling}
