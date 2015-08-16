@@ -1,13 +1,14 @@
-\begin{thebibliography}{4}
+\begin{thebibliography}{12}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
   \providecommand{\doi}[1]{doi: #1}\else
   \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
 
-\bibitem[Ref(2015)]{Reference1}
-\emph{Wikipedia}, 2015.
-\newblock URL \url{https://en.wikipedia.org/wiki/TR-069}.
+\bibitem[Jeff~Bernstein(2004)]{tr069}
+Westell Jeff~Bernstein, 2Wire Tim~Spets.
+\newblock Technical report 069 cpe wan management protocol.
+\newblock Technical Report~2, DSL Forum, 5 2004.
 
 \bibitem[Gerhart(1999)]{homeautomation}
 James Gerhart.
@@ -23,8 +24,51 @@ Richard Harper.
 
 \bibitem[Stiemerling(2008)]{stiemerling2008nat}
 Martin Stiemerling.
-\newblock Nat and firewall traversal issues of host identity protocol (hip)
+\newblock Nat and firewall traversal issues of host identity protocol hip
   communication.
 \newblock 2008.
+
+\bibitem[Rosenberg et~al.(2003)Rosenberg, Mahy, Huitema, and
+  Weinberger]{rosenberg2003stun}
+Jonathan Rosenberg, Rohan Mahy, Christian Huitema, and Joel Weinberger.
+\newblock Stun-simple traversal of udp through network address translators.
+\newblock 2003.
+
+\bibitem[Alqahtani()]{alqahtaniipv4}
+Mohammad Alqahtani.
+\newblock Ipv4 address exhaustion.
+
+\bibitem[Hu(2005)]{hu2005nat}
+Zhou Hu.
+\newblock Nat traversal techniques and peer-to-peer applications.
+\newblock In \emph{HUT T-110.551 Seminar on Internetworking}, pages 04--26.
+  Citeseer, 2005.
+
+\bibitem[Jeronimo and Weast(2003)]{jeronimo2003upnp}
+Michael Jeronimo and Jack Weast.
+\newblock \emph{UPnP design by example: a software developer's guide to
+  universal plug and play}.
+\newblock Intel Press, 2003.
+
+\bibitem[Wing et~al.(2013)Wing, Cheshire, Boucadair, and Penno]{wing2013p}
+D~Wing, S~Cheshire, M~Boucadair, and R~Penno.
+\newblock P. selkirk," port control protocol (pcp).
+\newblock Technical report, RFC 6887, April, 2013.
+
+\bibitem[Sherwin(2009)]{sherwin2009upnp}
+Lisa Sherwin.
+\newblock Upnp specifications named international standard for device
+  interoperability for ip-based network devices, 2009.
+
+\bibitem[Srisuresh and Holdrege(1999)]{srisuresh1999ip}
+Pyda Srisuresh and Matt Holdrege.
+\newblock Ip network address translator (nat) terminology and considerations.
+\newblock 1999.
+
+\bibitem[Rosenberg et~al.(2008)Rosenberg, Mahy, Matthews, and
+  Wing]{rosenberg2008rfc}
+J~Rosenberg, R~Mahy, P~Matthews, and D~Wing.
+\newblock Rfc 5389: Session traversal utilities for nat (stun).
+\newblock \emph{Internet Engineering Task Force}, 2008.
 
 \end{thebibliography}
