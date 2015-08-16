@@ -189,8 +189,29 @@ The STUN protocol allows applications operating behind a network address transla
     Firmware & Luup \\
     \bottomrule
   \end{tabular}
+%	\caption[Homelive Box of Orange]{Homelive Box of Orange}
 \end{center}
+
 %----------------------------------------------------------------------------------------------------------------
 \subsection{OpenWRT}
+OpenWrt\cite{fainelli2008openwrt} is a highly extensible GNU/Linux distribution for embedded devices (typically wireless routers). Unlike many other distributions for these routers, OpenWrt is built from the ground up to be a full-featured, easily modifiable operating system for your router. In practice, this means that you can have all the features you need with none of the bloat, powered by a Linux kernel that's more recent than most other distributions. The main components are the Linux kernel, util-linux, uClibc or musl, and BusyBox. All components have been optimized for size, to be small enough for fitting into the limited storage and memory available in home routers.
+
+OpenWrt is configured\cite{petullo2010building} using a command-line interface (ash shell), or a web interface (LuCI). There are about 3500 optional software packages available for installation via the opkg package management system.
+
+OpenWrt can run on various types of devices, including \textit{CPE routers}, residential gateways, smartphones (e.g. Neo FreeRunner), pocket computers (e.g. Ben NanoNote), and laptops (e.g. One Laptop per Child (OLPC)). It is also possible to run OpenWrt on ordinary computers, which are most commonly based on the x86 architecture. Many patches from the OpenWrt's codebase have been included upstream in the Linux kernel mainline.
 %----------------------------------------------------------------------------------------------------------------
-\subsection{Cross-Compling}
+\subsection{Cross-Compiling}
+
+Cross compiling is the process that capable of creating executable code for a platform other than the one on which the compiler is running. For example, a compiler that runs on a Windows 7 PC but generates code that runs on Android smartphone is a cross compiler.
+
+In our case, in the reason of the source of hardware in Homelive is very limited, we should finish the compilation of source code under the Linux Machine. To archieve this, we should get prepared with the compile tool chain which is provided by OpenWRT. The steps are:
+
+\begin{enumerate}
+  \item Download OpenWRT package prom officail site
+  \item Compile OpenWRT on Linux machine and select the packages needed for Homelive Box
+  \item Generate the tool-chain of compilation
+  \item Comple the TR-069 source code with OpenWRT tool chain
+  \item Transfer excutable files to Homelive
+\end{enumerate}
+
+The disadvantage of cross compiling is that you can\'t use debug tools like \textit{GDB}.
