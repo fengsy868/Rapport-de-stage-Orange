@@ -5,6 +5,32 @@
 \label{Chapter3} % For referencing the chapter elsewhere, use \ref{Chapter3}
 
 \lhead{Chapter 3. \emph{Background}} % This is for the header on each page perhaps a shortened title
+
+
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.9,0.9,0.9}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+\definecolor{mybrown}{RGB}{178,34,34}
+
+%\frametitle{Inserting source code without setting typewriter}
+\lstset{language=C++,
+  backgroundcolor=\color{mygray},
+  numbers=left,                    % possible val ues are (none, left, right)
+  numbersep=-8pt,                   % how far the line-numbers are from the code
+  numberstyle=\tiny\color{mybrown}, % the style that is used for the line-numbers
+  stepnumber=1,                    % each line will be numbered
+  morekeywords={*},
+  keywordstyle=\color{blue},
+  stringstyle=\color{mymauve},
+  commentstyle=\color{mygreen},
+  morecomment=[l][\color{magenta}]{\#},
+  basicstyle=\footnotesize,        % the size of the fonts that are used for the code
+  keepspaces=false,                 % keeps spaces in text, useful for keeping indentation of code
+  columns=flexible,
+  breaklines=true
+  rulesepcolor=\color{mygray},
+  rulecolor=\color{mygray}
+}
 %----------------------------------------------------------------------------------------
 In this chapter, some important technical backgrounds will be covered. First it explains the \textit{CPE WAN Management Protocol (CWMP)} which defines several data models. Then is the Mios which is the main partner of Orange on the Smart Home project. Also the \textit{NAT traversal} will be presented after Mios, it is a computer networking methodology with the goal to establish and maintain Internet protocol connections across gateways that implement \textit{network address translation (NAT)}.At last, the Homelive box will be analysed, including the HardWare analyse, operating system OpenWRT and Cross-Compiling between working machine and the embedeed system OpenWRT.
 
@@ -105,7 +131,25 @@ Luup (Lua-UPnP) is Mi Casa Verde(Mios)’s new software engine which incorporate
 On this platform, since the API includes drivers for Z-Wave, Insteon, etc., and talks to infrared and serial devices, home automation is the first thing that we can do on Luup. However Lua is a full-featured language and not limited just to scripting. Also, we can write modules in C/C++ that run on Vera, which the main Luup engine will also aggregate and control.
 
 \subsection{MMS}
-To be complted
+MMS is the management platform based on http request. To be able to use the MMS, we have to authenticate to a valid user of an account:
+
+Here is a login example:
+\begin{lstlisting}[mathescape]
+	https://orangefut-autha1.com/autha/auth/username/bob?SHA1Password=86e739edcc&PK_Oem=33
+\end{lstlisting}
+
+And the body of the response (Identity and IdentitySignature are truncated):
+
+\begin{lstlisting}[mathescape]
+{
+  "Identity": "eyJFeHBpcmVzIjoxNDAw...YW5nZV9tYXN0ZXIifQ==",
+  "IdentitySignature": "L5H6babTjsZwk7RiAeRP...W91tWSMIbI9x7jJmsQ==",
+  "Server_Event": "orangefut-event12.com",
+  "Server_Event_Alt": "orangefut-event11.com",
+  "Server_Account": "orangefut-account12.com",
+  "Server_Account_Alt": "orangefut-account11.com"
+}
+\end{lstlisting}
 %----------------------------------------------------------------------------------------------------------------
 \section{NAT Traversal}
 NAT traversal is a computer networking methodology with the goal to establish and maintain Internet protocol connections across gateways that implement network address translation (NAT). NAT breaks the principle of end-to-end connectivity originally envisioned in the design of the Internet.
@@ -167,7 +211,7 @@ The STUN protocol allows applications operating behind a network address transla
 \end{figure}
 %----------------------------------------------------------------------------------------------------------------
 \section{Homelive Box}
-
+Homelive is the Smart Home set-top box of Orange, which is the center of the Z-Wave network.
 
 %----------------------------------------------------------------------------------------------------------------
 \subsection{Hardware}
@@ -179,19 +223,34 @@ The STUN protocol allows applications operating behind a network address transla
 	\label{fig:homelivebox}
 \end{figure}
 
+Here is the list of Homelive components:
+
 \begin{center}
   \begin{tabular}{@{} cc @{}}
     \toprule
-    Item & Value \\
+    Item & Value \\*
     \midrule
     Architecture & MIPS64 \\
-    Operating System & OpenWRT \\
-    Firmware & Luup \\
+    Operating System & OpenWRT BarrierBreaker 14.07\\
+    Firmware & Luup (Lua \& UPnP) \\
+		Processeur & MT7620A (580 MHz) \\
+		Capacité mémoire & 128 MB DDR2, 128 MB capacité flash NAND \\
+		Connectivité Cellulaire & 2G quad bandes \\
+		Connectivité RF & Z-Wave Serie 500 \\
+		Connectivité Wi-Fi & 2.4 GHz 11n 2x2 \\
+		Connectivité réseau & 1 port RJ45 10/100 \\
+		Connectivité multimédia & 1 port USB2.0 \\
+		Carte Sim & 1 Slot externe \\
+		Dimensions & 174 mm x 129 mm x 33 mm (L x l x h) \\
+		Poids & 421 g \\
+		Alimentation externe & 12 V \\
+		Consommation électrique & 3 W \\
     \bottomrule
   \end{tabular}
 %	\caption[Homelive Box of Orange]{Homelive Box of Orange}
 \end{center}
 
+The MIPS64 architecture is based on a fixed-length, regularly encoded instruction set, and it uses a load/store data model. It is streamlined to support optimized execution of high-level languages. Arithmetic and logic operations use a three-operand format, allowing compilers to optimize complex expressions formulation. Availability of 32 general-purpose registers enables compilers to further optimize code generation by keeping frequently accessed data in registers.
 %----------------------------------------------------------------------------------------------------------------
 \subsection{OpenWRT}
 OpenWrt\cite{fainelli2008openwrt} is a highly extensible GNU/Linux distribution for embedded devices (typically wireless routers). Unlike many other distributions for these routers, OpenWrt is built from the ground up to be a full-featured, easily modifiable operating system for your router. In practice, this means that you can have all the features you need with none of the bloat, powered by a Linux kernel that's more recent than most other distributions. The main components are the Linux kernel, util-linux, uClibc or musl, and BusyBox. All components have been optimized for size, to be small enough for fitting into the limited storage and memory available in home routers.
@@ -214,4 +273,4 @@ In our case, in the reason of the source of hardware in Homelive is very limited
   \item Transfer excutable files to Homelive
 \end{enumerate}
 
-The disadvantage of cross compiling is that you can\'t use debug tools like \textit{GDB}.
+The disadvantage of cross compiling is that we can\'t use debug tools like \textit{GDB}.
