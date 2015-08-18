@@ -1,4 +1,4 @@
-\begin{thebibliography}{12}
+\begin{thebibliography}{17}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -21,6 +21,23 @@ Richard Harper.
 \newblock \emph{Inside the Smart Home}.
 \newblock Springer, 8 2003.
 \newblock ISBN 1852336889.
+
+\bibitem[B{\'e}nilde(2010)]{benilde2010portrait}
+Marie B{\'e}nilde.
+\newblock Portrait de france t{\'e}l{\'e}com en multinationale.
+\newblock \emph{Mani{\`e}re de voir}, 109\penalty0 (2):\penalty0 86--86, 2010.
+
+\bibitem[Bertolus et~al.(2003)Bertolus, Cedro, and Del~Jesus]{bertolus2003qui}
+Jean-J{\'e}r{\^o}me Bertolus, Jean-Michel Cedro, and Thierry Del~Jesus.
+\newblock \emph{Qui a ruin{\'e} France T{\'e}l{\'e}com?}
+\newblock Hachette litt{\'e}ratures, 2003.
+
+\bibitem[Jaffr{\'e}(2005)]{jaffre2005afrique}
+Bruno Jaffr{\'e}.
+\newblock En afrique, construire les alternatives aux privatisations.
+\newblock \emph{Benamrane Djilali, Jaffre Bruno et Verschave
+  Fran{\c{c}}ois-Xavier (sous la dir. de.), Les t{\'e}l{\'e}communications
+  entre bien public et marchandise, Paris: Charles-L{\'e}opold Mayer}, 2005.
 
 \bibitem[Stiemerling(2008)]{stiemerling2008nat}
 Martin Stiemerling.
@@ -70,5 +87,16 @@ Pyda Srisuresh and Matt Holdrege.
 J~Rosenberg, R~Mahy, P~Matthews, and D~Wing.
 \newblock Rfc 5389: Session traversal utilities for nat (stun).
 \newblock \emph{Internet Engineering Task Force}, 2008.
+
+\bibitem[Fainelli(2008)]{fainelli2008openwrt}
+Florian Fainelli.
+\newblock The openwrt embedded development framework.
+\newblock In \emph{Proceedings of the Free and Open Source Software Developers
+  European Meeting}, 2008.
+
+\bibitem[Petullo(2010)]{petullo2010building}
+Mike Petullo.
+\newblock Building custom firmware with openwrt.
+\newblock \emph{Linux Journal}, 2010\penalty0 (196):\penalty0 3, 2010.
 
 \end{thebibliography}
