@@ -6,6 +6,21 @@
 
 \lhead{Chapter 5. \emph{TR-069 Client}} % This is for the header on each page - perhaps a shortened title
 
+\lstdefinestyle{DOS}
+{
+    backgroundcolor=\color{black},
+    basicstyle=\scriptsize\color{white}\ttfamily
+    numbers=none,
+    numbersep=8pt,                   % how far the line-numbers are from the code
+    numberstyle=\tiny\color{white}, % the style that is used for the line-numbers
+    stepnumber=1                    % the step between two line-numbers. If it's 1, each line will be numbered
+}
+%----------------------------------------------------------------------------------------
+\lstdefinestyle{C}
+{
+  morekeywords={export}
+}
+%----------------------------------------------------------------------------------------
 TR-069 Client is implemented by Orange at 2008, but is a generic version for all potenial devices. The first part of my internship is to make TR-069 Client for Homelive Box. To be able to provide a generic TR-069 mudule which is easily portable on different devices, it satisfy the following points:
 
 \begin{itemize}
@@ -14,6 +29,13 @@ TR-069 Client is implemented by Orange at 2008, but is a generic version for all
   \item Provide generic API to access device specific modules
   \item Provide Makefiles to build the binary
   \item Provide system traces on module activity
+\end{itemize}
+
+On a CPE, there are two modules that are mentioned all along this document and which are responsible of
+the CWMP:
+\begin{itemize}
+  \item \textbf{TR-069 Agent}: This agent is responsible of the CWMP sessions. It initializes them with the inform message, realizes the ACS command(s) and execute some feedback command (notably after a firmware upgrade).
+  \item \textbf{TR-069 Server}: This is a small HTTP server which listens of the WAN interface for an ACS solicitation (in TR-069, it is known as “connection request”). On a valid connection request, the TR-069 server contacts the TR-069 agent for starting a CWMP session with the ACS.
 \end{itemize}
 %----------------------------------------------------------------------------------------
 \section{Architecture of TR-069 Client}
@@ -37,7 +59,7 @@ For each module:
   \item \textbf{XML Parser} : Decode / encode SOAP messages.
 \end{itemize}
 
-The figure below shows the file of the project, TR-069 Client defines all functions and APIs at each module. In consideration of easily ported to other devices, it put all target-related implementations in the folder \textit{dm_taget_implementation}.
+The figure below shows the file tree of the project, TR-069 Client defines all functions and APIs at each module. In consideration of easily ported to other devices, it put all target-related implementations in the folder \textit{dm_taget_implementation}.
 
 \begin{figure}[htbp]
 	\centering
@@ -46,11 +68,63 @@ The figure below shows the file of the project, TR-069 Client defines all functi
 	\label{fig:tr069file}
 \end{figure}
 
+In the folder \textit{dm_taget_implementation}, different target has been defined, you can implement the APIs and Mudules for different devices, and you specifie the target to compile in compilation, like:
+
+\begin{lstlisting}[style=DOS][language=bash]
+  $ make Target=TargetName TRACE_LEVEL=7 DEBUG=Y
+  $ make clean Target=TargetName
+\end{lstlisting}
+
+A csv file must be created for each new platform. This CSV file describes the data model parameters used by TR069 Agent and the default values for the TR069 specifics parameters. This target dependent CSV file is stored into \textit{dm_target_implementation/MYNEWDEVICE/dm_dm_target_data/dm_csv} directory.
+
+The CSV file is only read during the first system start up (or after a factory reset) and is used to generate the TR069
+database (i.e. parameters.data and parameters.data\~ files)
 
 %----------------------------------------------------------------------------------------
 
 \section{Problems and Solutions}
 
-When 
+When ported the TR-069 Client to Homelive, we have encountered serveral problems before it can perfectly running on Homelive Box.
 
+\subsection{IP Address Error}
+The first problem is IP Address Error. At every start up of the TR-069 Client, the module will have to detect the IP address of the box, and use it to build connection between STUN server and CPE. But when executing, the TR-069 client can't detect the IP address, so I have located the code which are responsible for IP detection,
+
+\begin{lstlisting}[mathescape]
+  static const char* ETH_INTERFACE = "eth0";
+  struct ifaddrs *myaddrs = NULL, *ifa = NULL;
+  struct sockaddr_in *s4 = NULL;
+  int  status;
+  /* buf must be big enough for an IPv6 address (e.g. 3ffe:2fa0:1010:ca22:020a:95ff:fe8a:1cf8) */
+  char buf[64];
+  memset((void *) buf,  0x00, sizeof(buf));
+
+  status = getifaddrs(&myaddrs);
+  if (status == 0)
+  {
+     for (ifa = myaddrs; ifa != NULL; ifa = ifa->ifa_next)
+     {
+        if ( (ifa->ifa_addr != NULL)
+           && ((ifa->ifa_flags & IFF_UP) != 0)
+           && (ifa->ifa_addr->sa_family == AF_INET) )
+        {
+           s4 = (struct sockaddr_in *)(ifa->ifa_addr);
+           if ( (inet_ntop(ifa->ifa_addr->sa_family, (void *)&(s4->sin_addr), buf, sizeof(buf)) != NULL)
+              && (strcmp(ifa->ifa_name, ETH_INTERFACE)==0) )
+           {
+              ipAddress = strdup(buf);
+              break;
+           }
+        }
+     }
+  }
+\end{lstlisting}
+
+In general, the first Internet address should be \textit{eth0}, but in Homelive Box, if you verify with command
+\begin{lstlisting}[style=DOS][language=bash]
+  $ ifconfig -a
+\end{lstlisting}
+
+The default Internet interface is "br-lan", which is specific in OpenWRT system, which is bridgeds Virtual Network Interface, used to make multiple virtual or physical network interfaces act as if they were just one network interface (quasi the opposite of VLANs).
+
+So my solution is just change the macro definition of \textit{ETH_INTERFACE} from \textit{eth0} to \textit{br-lan}.
 %----------------------------------------------------------------------------------------
