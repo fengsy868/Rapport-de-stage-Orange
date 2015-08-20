@@ -7,7 +7,9 @@
 
 \graphicspath{{Pictures/}} % Specifies the directory where pictures are stored
 
+
 \usepackage[square, numbers, comma, sort&compress]{natbib} % Use the natbib reference package - read up on this to edit the reference style; if you want text (e.g. Smith et al., 2012) for the in-text references (instead of numbers), remove 'numbers'
+
 \hypersetup{urlcolor=blue, colorlinks=true} % Colors hyperlinks in blue - change to black if annoying
 \title{\ttitle} % Defines the thesis title - don't touch this
 
@@ -197,11 +199,13 @@ Last but not the least, I would like to thank all the CARE team members. Thank y
 
 \abs{\addtocontents{toc}{\vspace{1em}} % Add a gap in the Contents, for aesthetics
 
-NVIDIA OptiX provides developers with a highly optimized ray tracing platform on GPU. It manages automatically traditional GPU implementation problems like keeping thread blocks busy, minimizing data transfers, optimizing use of hardware and so on. With OptiX ray tracing engine, users may fully concentrate on the content itself without worry about specialized GPGPU architecture. Furthermore, OptiX allows users to assemble easily their own programs with the built-in tracking mechanism.
+The TR-069 developed by Orange Labs allows to manage communication between customer-premises equipment (CPE) and Auto Configuration Server (ACS).It offers the use of a set of services administration, monitoring and diagnosis while avoiding the problems associated with hardware and software diversity.
 
-EDF R\&D developed MODERATO to simulate the industrial radiography process. This Monte Carlo code employs ray tracing method to track gamma ray propagations and generates simulation images, but such calculations are extremely time-consuming. As a result, acceleration of this Monte Carlo simulation appears to be very important.
+Orange Homelive is the solution to manage the home on the mobile. From a single application, Homelive allows to interact with connected compatiable objects in the house. It proposes the Smart Home solution with a set-top box--Homelive.
 
-During this six-month internship, I explored OptiX's ray tracing potentials for general-purposed scientific computing. Major features of MODERATO implemented with this ray tracer. Test results indicate that OptiX implementation is really powerful since it attained the same computing performance as a CPU cluster with 8 Intel Xeon E5-2697 processors (96 cores). In conclusion, OptiX is a well suited ray tracing platform for scientific Monte Carlo simulations.
+Z-Wave is a wireless protocol designed for home automation (lighting, private heating) and so-called Smart Home. Z-Wave was bought by the company Americane Sigma Designs in 2008. It is optimized for low bandwidth exchanges and devices on battery. It can be easily integrated in consumer electronics, including remote controls, smoke detectors and safety sensors.
+
+During the six-month internship, my main mission was to adapt the TR-069 Client at the Homelive box by resolving the incompatibility and implementing the RPC methods. Also, integrates the new Z-Wave data model in the TR-069 Client by contacting with the Luup firmware of the Homelive Box. With my internship result, Orange will be allowed to manage Homelive from distance to reduce the expenses on support services.
 }
 
 %----------------------------------------------------------------------------------------
@@ -212,11 +216,13 @@ During this six-month internship, I explored OptiX's ray tracing potentials for 
 
 \resume{\addtocontents{toc}{\vspace{1em}} % Add a gap in the Contents, for aesthetics
 
-Le code MODERATO développé par EDF simule le procédé de contrôle non destructif par radiographie X et gamma. Il s'agit d'une simulation Monte Carlo qui permet de reproduire et de prévoir les phénomènes physiques intervenant dans le cadre de l’inspection de centrales nucléaires. En particulier, cette simulation emprunte une modélisation de lancer de rayons afin de simuler le déplacement des photons.
+Le TR-069 développé par Orange Labs permet de gérer la communication entre un équipement terminal du réseau local du client et un servert d'autoconfiguration associé dans un même réseau apprtenant à l'opérateur.Il offre à l'utilisation d'un ensemble de services d'administration, de contrôle et de diagnostic tout en évitant les problèmes liés aux diversités matérielles et logicielles.
 
-Depuis récemment, Nvidia propose une bibliothèque de lancer de rayons, OptiX, optimisée pour l'architecture CUDA. En utilisant cette API pour un calcul scientifique, les développeurs peuvent se concentrer sur les problèmes de simulation et laisser OptiX prendre en charge le matériel et le parallélisme.
+Orange Homelive est la solution pour piloter sa maison depuis son mobile. A partir d'une seule application, Homelive permet d'interagir avec les objets connectés compatiables dans la maison. Il donne la solution de Smart Home avec un set-top box--Homelive.
 
-Pendant ces six mois de stage, ma mission principale a été d'étudier le portage de l'algorithme Monte Carlo sur l'accélérateur GPU, en explorant la possibilité de s'appuyer sur OptiX. Selon des tests qu'on a réalisé, OptiX fournit une performance au même niveau qu'un CPU cluster avec 8 Xeon E5-2697 processeurs (96 coeurs). On peut conclure qu'OptiX est un outil de lancer de rayons flexible et ouvert pour le calcul scientifique. Il nous permet d'avoir une accélération impressionnante en changeant peu l'algorithme initial.
+Z-Wave est un protocole radio conçu pour la domotique(éclairage, chauffrage) et ce qu'on appelle l'Habitat comminicant. En 2008 Z-Wave a été rachetée par la société américane Sigma Designs. Il est optimisé pour des échanges à faible bande passante et des appareils sur pile ou alimentés électroniquement. Il peut être facilement intégrée dans les produits électroniques de consommation, y compris télécommandes, les détecteurs de fumée et capteurs de sécurité.
+
+Pendant ces six mois de stage, ma mission principale a été d'adapter le TR-069 Client au Homelive box, en résoulvant les incompatibilité et implémentant les RPC méthodes. Ainsi que intégre le nouveau data modèle Z-Wave dans le TR-069 Client en communiquant avec le firmware Luup dans Homelive Box. Avec mon résultat de stage, Orange va être autorisé à gérer Homelive à distance pour réduire les dépenses sur les services de soutien.
 }
 
 %----------------------------------------------------------------------------------------
