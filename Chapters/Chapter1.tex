@@ -8,20 +8,20 @@
 
 %----------------------------------------------------------------------------------------
 
-TR-069 (Technical Report 069) is a technical specification published by the Broadband Forum and entitled CPE WAN Management Protocol (CWMP)\cite{tr069}. It defines an application layer protocol for remote management of end-user devices. As a bidirectional SOAP/HTTP-based protocol, it provides the communication between customer-premises equipment (CPE) and Auto Configuration Servers (ACS). It includes both a safe auto configuration and the control of other CPE management functions within an integrated framework. The protocol addresses the growing number of different Internet access devices such as modems, routers, gateways, as well as end-user devices which connect to the Internet, such as set-top boxes, and VoIP-phones. The TR-069 standard was developed for automatic configuration and management of these devices by Auto Configuration Servers (ACS). The technical specifications are managed and published by the Broadband Forum. TR-069 was first published in May 2004, with amendments in 2006, 2007, 2010, July 2011 to version 1.3. and November 2013 to version 1.4 (am5)
+TR-069 (Technical Report 069) is a technical specification published by the Broadband Forum\footnote{https://www.broadband-forum.org/} and entitled CPE WAN Management Protocol (CWMP)\cite{tr069}. It defines an application layer protocol for remote management of end-user devices. As a bidirectional SOAP/HTTP-based protocol, it provides the communication between customer-premises equipment (CPE) and Auto Configuration Servers (ACS). It includes both a safe auto configuration and the control of other CPE management functions within an integrated framework. The protocol addresses the growing number of different Internet access devices such as modems, routers, gateways, as well as end-user devices which connect to the Internet, such as set-top boxes, and VoIP-phones. The TR-069 standard was developed for automatic configuration and management of these devices by Auto Configuration Servers (ACS). TR-069 was first published in May 2004, with amendments in 2006, 2007, 2010, July 2011 to version 1.3. and November 2013 to version 1.4 (am5)
 
-On 23 October 2014, the new Smart Home product of Orange --Homelive-- is published. Homelive is a unique solution that can link to the connected objects in the home, allowing client to manage the appliances remotely.There are a range of intelligent sensors and connected devices: weather monitors, thermostats, light switches, sound and movement detectors, and smoke detectors. They are connected using the protocol Z-Wave. For the Orange support team, managing and monitoring the devices from distance is essential to reduce the maintenance fee.
+On 23 October 2014, the new Smart Home product of Orange --Homelive-- has entered to the market. Homelive is a unique solution that can link to the connected objects in the home, allowing client to manage the appliances remotely. There are a range of connected devices: weather monitors, thermostats, light switches, sound and movement detectors, and smoke detectors. They are connected using the Z-Wave protocol. For Orange support team, managing and monitoring devices remotely is critical to reduce the maintenance fee.
 
-The present report describes the work I have done during my six months internship at Orange Labs. In order to reduce the maintenance fee of sending support enginner to the home of client, my mission was to evaluate the adaptation of TR-069 in the Homelive in order to manage devices using ACS from distance. The fommowing part of this chapter will at first give a basic conception of the context, I will then present the objective of my internship. At the last section, the outline of the report wil be listed.
+The present report describes the work I have done during my six months internship at Orange Labs. In order to reduce the maintenance fee of sending support engineer to client homes, my mission was to evaluate the adaptation of TR-069 in the Homelive in order to remotely manage devices using an ACS. The following part of this chapter at first gives a basic conception of the context,then my internship objectives are presented. In the last section, the outline of the report wil be listed.
 
 %----------------------------------------------------------------------------------------
 
 \section{Context}
 \subsection{Smart Home}
 
-Home automation \cite{homeautomation} is the residential extension of building automation. It is automation of the home, housework or household activity. Home automation may include centralized control of lighting, HVAC (heating, ventilation and air conditioning), appliances, security locks of gates and doors and other systems, to provide improved convenience, comfort, energy efficiency and security. Home automation for the elderly and disabled can provide increased quality of life for persons who might otherwise require caregivers or institutional care.
+Home automation \cite{homeautomation} is the residential extension of building automation. It is automation of the home, housework or household activities. Home automation may include centralized control of lighting, HVAC (heating, ventilation and air conditioning), appliances, security locks of gates and doors and other systems, to provide improved convenience, comfort, energy efficiency and security.
 
-The popularity of home automation has been increasing greatly in recent years due to much higher affordability and simplicity through smartphone and tablet connectivity. The concept of the "Internet of Things" has tied in closely with the popularization of home automation.
+The popularity of home automation has been increasing greatly in recent years due to much higher affordability and simplicity through smartphone and tablet connectivity. The concept of the ``Internet of Things'' has tied in closely with the popularization of home automation. There are currently many communication protocol\footnote{Like Z-Wave, Zigbee, En-Ocean, etc.} for home automation.
 
 A home automation system \cite{homeautomation1} integrates electrical devices in a house with each other. The techniques employed in home automation include those in building automation as well as the control of domestic activities, such as home entertainment systems, houseplant and yard watering, pet feeding, changing the ambiance "scenes" for different events (such as dinners or parties), lighting control system, and the use of domestic robots. Devices may be connected through a home network to allow control by a personal computer, and may allow remote access from the internet. Through the integration of information technologies with the home environment, systems and appliances can communicate in an integrated manner which results in convenience, energy efficiency, and safety benefits.
 
@@ -29,14 +29,14 @@ Orange contribution in standards aims at preparing an enhanced experience for th
 %------------------------------------------------------------------------------------------------------------------------------------------------------------
 \subsection{Homelive Offer}
 
-Homelive is a smart-home convenience system that puts their home at the customer’s fingertips when away. Using a single application accessed by a smartphone tablet or computer, Orange Homelive allows consumers to adjust settings and to control remotely all connected home appliances from any place in order to enhance home security, improve home comfort, and manage energy consumption in the home. Homelive includes support for a broad range of devices, and Orange is continuing to expand the types of services and devices supported. The home monitoring subscription service is available for 9.99EUR per month, and sends alerts when devices such as motion detectors and smoke alarms are triggered to owners via SMS or email.
+Homelive is a smart-home convenience system that puts their home at the customer’s fingertips when away. Using a single application accessed by a smartphone tablet or computer, Orange Homelive allows consumers to adjust settings and to control remotely all connected home appliances from any place in order to enhance home security, improve home comfort, and manage energy consumption in the home. Homelive includes support for a broad range of devices, and Orange is continuing to expand the types of services and devices supported. The home monitoring subscription service is available for 9.99 \euro per month, and sends alerts when devices such as motion detectors and smoke alarms are triggered to owners via SMS or email.
 
-The Homelive pack is sold for 79 euros (\$99.00) with a special cash back offer of 78 euros — offer is valid for all new Homelive customers. It includes a central unit and 3 devices — a smoke sensor, a door/window sensor and a motion sensor(\fref{fig:1}). To enjoy the features of the Homelive solution, the user pays only 9.99 euros per month with a 12-month commitment. The subscription includes unlimited SMS alerts, continuity of service monitoring and alerts in case of internet failure (subject to Orange mobile coverage), dedicated technical support and storage of video and data for a month. The offer is not restricted to Orange customers. Homelive can be installed in any home in France with an active Internet connection(\fref{fig:2}).
+The Homelive pack is sold for 79 \euro (\$99.00) with a special cash back offer of 78 \euro offer is valid for all new Homelive customers. It includes a central unit and 3 devices — a smoke sensor, a door/window sensor and a motion sensor( \fref{fig:1}). To enjoy the features of the Homelive solution, the user pays only 9.99 \euro per month with a 12-month commitment. The subscription includes unlimited SMS alerts, continuity of service monitoring and alerts in case of internet failure( subject to Orange mobile coverage), dedicated technical support and storage of video and data for a month. The offer is not restricted to Orange customers. Homelive can be installed in any home in France with an active Internet connection.%(\fref{fig:2}).
 
 \begin{figure}[htbp]
 	\centering
 		\includegraphics[width=10cm]{Figures/Pack_Accesoires_Homelive.jpg}
-	\caption[Homelive Offre Au Cas Où]{Homelive Offre Au Cas Où.}%{}
+	\caption[Homelive ``Au Cas Où'']{Homelive ``Au Cas Où''}%{}
 	\label{fig:1}
 \end{figure}
 
@@ -48,16 +48,14 @@ The Homelive pack is sold for 79 euros (\$99.00) with a special cash back offer 
 \end{figure}
 %------------------------------------------------------------------------------
 \subsection{Device Management}
-The home networking is becoming a reality : a growing number of devices are connected in the user's home network and require device management. Device management is a key asset for Orange used to upgrade the livebox or Homelive firmware for new services deployment; it also used for VoIP activation and next generation liveradio \& IPTV set-top box. Orange is operating a TR69 platform called Karma.
-
-Service providers are faced with the new challenge of \textbf{managing the increasing complexity} of the home devices. Home Device Management addresses the technical device management and includes the following operations:
+A growing number of devices are connected in the user's home network and require device management. Service providers are faced with the new challenge of managing the increasing complexity of the home devices. Home Device Management addresses the technical device management and includes the following operations:
 %------------------------------------------------------------------------------
 \begin{itemize}
   \it
   \setstretch{1} % Reset the line-spacing to 1
-  \item Setup and configuration of services (auto-provisioning).
-  \item Managing connected devices (local or remote management): basic management, configuration management, software management, performance monitoring.
-  \item Giving Service Providers more control (firmware upgrade).
+  \item Setup and configuration of services (auto-provisioning),
+  \item Managing connected devices (local or remote management): basic management, configuration management, software management, performance monitoring,
+  \item Giving Service Providers more control (firmware upgrade),
 	\item Cost reduction through remote management (avoid problem).
 \end{itemize}
 %------------------------------------------------------------------------------
@@ -66,18 +64,22 @@ Concerning the management of the connected devices, management could mainly be d
   \it
   \setstretch{1} % Reset the line-spacing to 1
   \item \textbf{Basic Management :} Enable reboot, baseline reset, logging and basic test features such as ping, traceroute, nslookup and self-test action.
-  \item \textbf{Configuration Management :} Includes Data Model access and setting, i.e., parameter setting and object creation.
+  \item \textbf{Configuration Management :} Includes Data Model access and setting, i.e. parameter setting and object creation.
   \item \textbf{Software Management :} Enable Deployment Unit, i.e., installation/uninstallation/update of software package; Execution Unit, i.e., active unit, start and stop.
 	\item \textbf{Performance Monitoring :} Include time base mechanism to retrieve information on the device behavior, i.e., raw, threshold or aggregated.
 \end{itemize}
 %------------------------------------------------------------------------------
-Software vendors proposes several solutions to achieve these goals based on proprietary or standardized protocols. There are several standardization initiatives but the Broadband Forum Home is the more interested proposal to address remote Home Device Management needs from the operator point of view.
+Software vendors proposes several solutions to achieve these goals based on proprietary or standardized protocols. There are several standardization initiatives but the Broadband Forum is the more interesting proposal to address remote Home Device Management needs from the operator point of view.
 
-The core protocol CWMP (CPE Wan Management Protocol, also known as TR-069) is developped in the Broadband Forum. The data models are produced by the Broadband Forum based on other organisation input. The data model leaves quite a lot of options. Standard organisation or forum like HGI or ETSI TISPAN proposes implementation profiles requiring certain paramaters as mandatory.
 
-Nevertheless, TR-069 is not well adopted by manufacturers, especially consumer electronic vendors. To achieve local Home Device Management the UPnP Forum has created a Working Committee dedicated to Device Management namely: \textbf{UPnP Device Management}. Orange is currently co-chairing it with Samsung. This working committee is defining a local management protocol which is able to cover the remote management scope, i.e., from a local/inner point of view, and to manipulate Data Model definitions coming from other fora such as Brodband Forum or OMA.
+
+The core protocol CWMP (CPE Wan Management Protocol, also known as TR-069) is specified in the Broadband Forum. The data models are produced by the Broadband Forum based on other organisation inputs. Standard organisation or forum like HGI\footnote{Home Gateway Initiative, smart home gateway provider.} or ETSI TISPAN\footnote{Telecoms \& Internet converged Services \& Protocols for Advanced Network.} proposes implementation profiles requiring certain paramaters as mandatory.
+
+Nevertheless, TR-069 is not well adopted by manufacturers, especially consumer electronic vendors. To achieve local Home Device Management the UPnP Forum has created a Working Committee dedicated to Device Management namely: \textbf{UPnP Device Management}. Orange is currently co-chairing it with Samsung. This working committee is defining a local management protocol which is able to cover the remote management scope, i.e., from a local/inner point of view, and to manipulate Data Model definitions coming from other forum such as Brodband Forum or OMA\footnote{Open Mobile Alliance who defines mobile phone specifications \& standards, enabling advancements in mobile across the globe.}.
 %------------------------------------
 \section{Objective of Internship}
+
+Device management is a key asset for Orange used to upgrade the livebox or Homelive firmware for new services deployment; it also used for VoIP activation and next generation liveradio \& IPTV set-top box. Orange is operating a TR69 platform named Karma. Under the situation that Homelive is growing in the market, device management based on TR-069 is become critical for Orange.
 
 The principal objective of this internship is divided into two parts:
 \begin{enumerate}
@@ -88,12 +90,12 @@ The principal objective of this internship is divided into two parts:
 %----------------------------------------------------------------------------------------
 
 \section{Outline}
-In the first part I will introduce the enterpris Orange, ans also the Orange Labs and the team CARE where I accomplish my internship.
+In the first part( \autoref{Chapter2}) the enterpris Orange, and also the Orange Labs and the team CARE where I accomplish my internship will be introduced.
 
-Chapter 3 will cover the serveral most important technical backgrounds. It first explains the \textit{CPE WAN Management Protocol (CWMP)} which defines several data models. Then is the Mios which is the main partner of Orange on the Smart Home project. Also the \textit{NAT traversal} will be presented after Mios, it is a computer networking methodology with the goal to establish and maintain Internet protocol connections across gateways that implement \textit{network address translation (NAT)}.At last, the Homelive box will be analysed, including the HardWare analyse, operating system OpenWRT and Cross-Compiling between working machine and the embedeed system OpenWRT.
+\autoref{Chapter3} will cover the serveral most important technical backgrounds. It first explains the \textit{CPE WAN Management Protocol (CWMP)} which defines several data models. Then is the Luup and MMS management plateform which are provided by the main partner( Mios\footnote{MiOS, LTD. is a global software and hardware company represented in over 60 countries, and focused on developing and distributing advanced control and monitoring solutions for the home and small enterprise markets.}) of Orange on the Smart Home project. Also the \textit{NAT traversal} will be presented after Mios, it is a computer networking methodology with the goal to establish and maintain Internet protocol connections across gateways that implement \textit{Network Address Translation (NAT)}. At last, the Homelive box will be analysed, including the hardware analyse, operating system OpenWRT and Cross-Compiling between working machine and the embedeed system OpenWRT.
 
-The following chapter focuses on global architecture of Homelive Management Platform. The procedure of the communication between \textit{Auto Configuration Server (ACS)} will be described. Then, it goes over the position of my work in the whole project of the team.
+The following chapter( \autoref{Chapter4}) focuses on global architecture of Homelive Management Platform. The procedure of the communication between \textit{Auto Configuration Server (ACS)} and \textit{Customer-Premises Equipment (CPE)}will be described. Then, it goes over the position of my work in the whole project of the team.
 
-Chapter 5 explains my work on the first objective of this internship---TR-069 Client. Firstly, due to the highly modularization, the architecture of the program TR-069 client will be introduced. Then is the problems I meet during the implementation of TR-069 Client and the solutions I proposed. The result of completion of the RPC methods will be listed at last.
+\autoref{Chapter5} explains my work on the first objective of this internship---TR-069 Client. Firstly, due to the highly modularization, the architecture of the program TR-069 client will be introduced. Then is the problems I meet during the implementation of TR-069 Client and the solutions I proposed. The result of completion of the RPC methods will be listed at last.
 
-The final chapter will present the second objective which is to intergrate the data model Z-Wave in order to build the home network of connected objects and allow them to communicate with each other. The protocol and data model Z-Wave will be presented at first. Then is the procedure of synchronization of Z-Wave data model in Homelive firmware, TR-069 client and Automatic Configuration Server.
+The final \autoref{Chapter6} will present the second objective which is to intergrate the data model Z-Wave in order to build the home network of connected objects and allow them to communicate with each other. The protocol and data model Z-Wave will be presented at first. Then is the procedure of synchronization of Z-Wave data model in Homelive firmware, TR-069 client and Automatic Configuration Server.
