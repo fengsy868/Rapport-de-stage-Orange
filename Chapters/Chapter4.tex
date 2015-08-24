@@ -7,8 +7,7 @@
 \lhead{Chapter 4. \emph{HomeLive Management Platform}} % This is for the header on each page - perhaps a shortened title
 
 %----------------------------------------------------------------------------------------
-In this chapter, the Homelive Management Platform structure will be introduced. The following figure shows an overview for the application between ACS and CPE
-devices. With TR-069 protocol, ACS can communicate and manage devices easily. 
+In this chapter, the Homelive Management Platform structure will be introduced. The following \autoref{fig:Platform} shows an global view for CWMP. With TR-069 protocol, ACS can communicate and manage devices easily.
 %http://orange-france.com.francetelecom.fr:81/ui_normandie/spip.php?article3304
 \begin{figure}[htbp]
 	\centering
@@ -17,7 +16,7 @@ devices. With TR-069 protocol, ACS can communicate and manage devices easily.
 	\label{fig:Platform}
 \end{figure}
 
-ACS is the server which is accessible by the support engineers of Orange. Support engineers can communicate at distance with Homelive box using protocol TR-069. The TR-069 server will be running in ACS and TR-069 client will be running in Homelive. This essentially means that control over the flow of the provisioning session is the sole responsibility of the device. Through TR-069, the high-level operations possible are:
+ACS is the server which is accessible by the support engineers of Orange. Support engineers are capable to build a connection remotely with Homelive box using protocol TR-069. The connection are build by two programs. The \textit{TR-069 server} will be running in ACS as a server side and \textit{TR-069 client} will be running in Homelive as the client. This essentially means that control over the flow of the provisioning session is the sole responsibility of the device. Through TR-069, the high-level operations possible are:
 \begin{itemize}
   \item Service activation and reconfiguration
   \begin{itemize}
