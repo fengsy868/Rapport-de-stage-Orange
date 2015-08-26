@@ -35,10 +35,10 @@ or
   $ tsocks git clone git://git.openwrt.org/openwrt.git
 \end{lstlisting}
 
-We choose the specific version 44360 becasue OpenWRT added unsupported libraries after this.
+We choose the specific version 44360 because OpenWRT added unsupported libraries after this.
 
 \subsection{OpenWRT Buildroot Configuration}
-Then is to run configure interface to personnalize your OpenWRT image:
+Then is to run configure interface to personalize your OpenWRT image:
 \begin{lstlisting}[style=DOS][language=bash]
   $ make menuconfig
 \end{lstlisting}
@@ -79,7 +79,7 @@ The compiling process may take a while. When finished, your OpenWRT toolchain is
 %----------------------------------------------------------------------------------------
 \section{Building TR-069 Client}
 \subsection{Get the source code}
-Geting the source code by using the SVN of Orange:
+Getting the source code by using the SVN of Orange:
 \begin{lstlisting}[style=DOS][language=bash]
   $ tsocks svn co https://www.forge,orange-labs.fr/svnroot/tr069agent
 \end{lstlisting}
@@ -96,7 +96,7 @@ Then, the compiling command is:
   $ make Target=HomeLive CC=$STAGING_DIR/toolchain-mipsel_24kec+dsp_gcc-4.8-linaro_uClibc-0.9.33.2/bin/mipsel-openwrt-linux-uclibc-gcc CWMP_APPLICATION_NAME=cwmpd LIB_HEADER_INC=-I$STAGING_DIR/target-mipsel_24kec+dsp_uClibc-0.9.33.2/usr/include/ CWMP_USED_LIBRARY_FLAGS="-L$STAGING_DIR/target-mipsel_24kec+dsp_uClibc-0.9.33.2/usr/lib/ -lcurl -lpthread -lpolarssl -ljsonc"
 \end{lstlisting}
 
-You can find exutable file \textit{cwmpd} in ./obj.
+You can find exactable file \textit{cwmpd} in ./obj.
 %----------------------------------------------------------------------------------------
 \section{Connection to the Homelive Box}
 \subsection{Port status checking}
@@ -120,7 +120,7 @@ Then check if the Homelive HTTP and SSH port are open:
   Nmap done: 1 IP address (1 host up) scanned in 40.73 seconds
 \end{lstlisting}
 
-To open the ssh and http port permanetly, you can put a script in /root and add the following line to contab:
+To open the ssh and http port permanently, you can put a script in /root and add the following line to contab:
 \begin{lstlisting}[style=DOS][language=bash]
 */2 * * * * /root/permissions.sh >/dev/null 2>&1
 \end{lstlisting}
@@ -147,7 +147,7 @@ List of the needed libraries for cwmpd:
   NEEDED               libc.so.0
 \end{lstlisting}
 
-We need to get the correct version of libpolarssl: libpolarssl.so.3. A temporary hack is to define a symbolic link from libpolarssl.so.7 to libpolarssl.so.3. On the homeLive:
+We need to get the correct version of libpolarssl: libpolarssl.so.3. A temporary hack is to define a symbolic link from libpolarssl.so.7 to libpolarssl.so.3. On the HomeLive:
 \begin{lstlisting}[style=DOS][language=bash]
   $ cd /usr/lib
   $ ln -s libpolarssl.so.3 libpolarssl.so.7

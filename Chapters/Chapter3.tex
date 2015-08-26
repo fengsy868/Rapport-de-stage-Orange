@@ -15,7 +15,7 @@
 %\frametitle{Inserting source code without setting typewriter}
 \lstset{language=C++,
   backgroundcolor=\color{mygray},
-  numbers=left,                    % possible val ues are (none, left, right)
+  numbers=left,                    % possible values are (none, left, right)
   numbersep=-8pt,                   % how far the line-numbers are from the code
   numberstyle=\tiny\color{mybrown}, % the style that is used for the line-numbers
   stepnumber=1,                    % each line will be numbered
@@ -32,11 +32,11 @@
   rulecolor=\color{mygray}
 }
 %----------------------------------------------------------------------------------------
-In this chapter, some important technical backgrounds will be covered. First it explains the \textit{CPE WAN Management Protocol (CWMP)} which defines several data models. Then is the Luup and MMS management plateform which are provided by the main partner of Orange on the Smart Home project. Also the \textit{NAT traversal} will be presented after Mios, it is a computer networking methodology with the goal to establish and maintain Internet protocol connections across gateways that implement \textit{network address translation (NAT)}.At last, the Homelive box will be analysed, including the HardWare analyse, operating system OpenWRT and Cross-Compiling between working machine and the embedeed system OpenWRT.
+In this chapter, some important technical backgrounds will be covered. First it explains the \textit{CPE WAN Management Protocol (CWMP)} which defines several data models. Then is the Luup and MMS management platform which are provided by the main partner of Orange on the Smart Home project. Also the \textit{NAT traversal} will be presented after Mios, it is a computer networking methodology with the goal to establish and maintain Internet protocol connections across gateways that implement \textit{network address translation (NAT)}.At last, the Homelive box will be analyzed, including the hardware analyze, operating system OpenWRT and Cross-Compiling between working machine and the embedded system OpenWRT.
 
 \section{CWMP}
 
-CPE WAN Management Protocol (CWMP) is a technology specification initiated and developed by the Digital Subscriber’s Line DSL Forum(now Broadband Forum). CWMP is numbered TR-069 by the forum and is thus also called the TR-069 protocol. It defines the general frame, message format, management method, and data model for the management and configuration of home network devices in next-generation networks.
+CPE WAN Management Protocol (CWMP) is a technology specification initiated and developed by the Digital Subscriber’s Line DSL Forum (now Broadband Forum). CWMP is numbered TR-069 by the forum and is thus also called the TR-069 protocol. It defines the general frame, message format, management method, and data model for the management and configuration of home network devices in next-generation networks.
 
 CWMP is mainly applied to DSL access networks, which are hard to manage because user devices are located at the customer premise, dispersed, and large in number. CWMP makes the management easier by using an auto-configuration server (ACS) to perform remote centralized management of customer premises equipment (CPE).
 
@@ -121,14 +121,14 @@ Values applicable for the parameter, their type and meaning are also precisely d
 A multi-instance object may be writable (enabling dynamic creation and/or removal of its children) or read-only depending on the data represented. If for example the object represents four physical ports on a switch it should not be possible to add or remove them from the data model. If an instance is added to an object an identifier is assigned. After being assigned, identifiers may not change during the life-cycle of the device except for factory-reset.
 %------------------------------------------------------------------------------------------------------------
 \section{Mios}
-MiOS, LTD. is a global software and hardware company represented in over 60 countries, and focused on developing and distributing advanced control and monitoring solutions for the home and small enterprise markets. Founded in 2008, MiOS has created the technology platform that bridges many different devices to produce hardware and software solutions for home control networks. Now in its fifth generation, the MiOS platform allows users to remotely control, monitor and automate their households and businesses with products that are currently available from any vendor.
+Mios, LTD. is a global software and hardware company represented in over 60 countries, and focused on developing and distributing advanced control and monitoring solutions for the home and small enterprise markets. Founded in 2008, Mios has created the technology platform that bridges many different devices to produce hardware and software solutions for home control networks. Now in its fifth generation, the Mios platform allows users to remotely control, monitor and automate their households and businesses with products that are currently available from any vendor.
 
-At January 6th, 2014. MiOS has been selected as the platform partner for Orange’s Smart Home initiative. This announcement followed a successful launch with MiOS as the platform for Orange Poland’s Smart Home program.  The Orange initiative will be initially offered in several countries in Europe.
+At January 6th, 2014. Mios has been selected as the platform partner for Orange’s Smart Home initiative. This announcement followed a successful launch with Mios as the platform for Orange Poland’s Smart Home program.  The Orange initiative will be initially offered in several countries in Europe.
 
 \subsection{Luup}
 Luup (Lua-UPnP) is Mi Casa Verde(Mios)’s new software engine which incorporates \textit{Lua}, a popular scripting language, and \textit{UPnP}, the industry standard way to control devices. Vera is built on Luup.
 
-On this platform, since the API includes drivers for Z-Wave, Insteon, etc., and talks to infrared and serial devices, home automation is the first thing that we can do on Luup. However Lua is a full-featured language and not limited just to scripting. Also, we can write modules in C/C++ that run on Vera, which the main Luup engine will also aggregate and control.
+On this platform, since the API includes drivers for Z-Wave, Insteon, etc., and talks to infrared and serial devices, home automation is the first thing that we can do on Luup. However, Lua is a full-featured language and not limited just to scripting. Also, we can write modules in C/C++ that run on Vera, which the main Luup engine will also aggregate and control.
 
 \subsection{MMS}
 MMS is the management platform based on http request. To be able to use the MMS, we have to authenticate to a valid user of an account:
@@ -251,24 +251,24 @@ Here is the list of Homelive components:
 The MIPS64 architecture is based on a fixed-length, regularly encoded instruction set, and it uses a load/store data model. It is streamlined to support optimized execution of high-level languages. Arithmetic and logic operations use a three-operand format, allowing compilers to optimize complex expressions formulation. Availability of 32 general-purpose registers enables compilers to further optimize code generation by keeping frequently accessed data in registers.
 %----------------------------------------------------------------------------------------------------------------
 \subsection{OpenWRT}
-OpenWrt\cite{fainelli2008openwrt} is a highly extensible GNU/Linux distribution for embedded devices (typically wireless routers). Unlike many other distributions for these routers, OpenWrt is built from the ground up to be a full-featured, easily modifiable operating system for your router. In practice, this means that you can have all the features you need with none of the bloat, powered by a Linux kernel that's more recent than most other distributions. The main components are the Linux kernel, util-linux, uClibc or musl, and BusyBox. All components have been optimized for size, to be small enough for fitting into the limited storage and memory available in home routers.
+OpenWRT\cite{fainelli2008openwrt} is a highly extensible GNU/Linux distribution for embedded devices (typically wireless routers). Unlike many other distributions for these routers, OpenWRT is built from the ground up to be a full-featured, easily modifiable operating system for your router. In practice, this means that you can have all the features you need with none of the bloat, powered by a Linux kernel that's more recent than most other distributions. The main components are the Linux kernel, util-linux, uClibc or musl, and BusyBox. All components have been optimized for size, to be small enough for fitting into the limited storage and memory available in home routers.
 
-OpenWrt is configured\cite{petullo2010building} using a command-line interface (ash shell), or a web interface (LuCI). There are about 3500 optional software packages available for installation via the opkg package management system.
+OpenWRT is configured\cite{petullo2010building} using a command-line interface (ash shell), or a web interface (LuCI). There are about 3500 optional software packages available for installation via the opkg package management system.
 
-OpenWrt can run on various types of devices, including \textit{CPE routers}, residential gateways, smartphones (e.g. Neo FreeRunner), pocket computers (e.g. Ben NanoNote), and laptops (e.g. One Laptop per Child (OLPC)). It is also possible to run OpenWrt on ordinary computers, which are most commonly based on the x86 architecture. Many patches from the OpenWrt's codebase have been included upstream in the Linux kernel mainline.
+OpenWRT can run on various types of devices, including \textit{CPE routers}, residential gateways, smartphones (e.g. Neo FreeRunner), pocket computers (e.g. Ben NanoNote), and laptops (e.g. One Laptop per Child (OLPC)). It is also possible to run OpenWRT on ordinary computers, which are most commonly based on the x86 architecture. Many patches from the OpenWRT codebase have been included upstream in the Linux kernel mainline.
 %----------------------------------------------------------------------------------------------------------------
 \subsection{Cross-Compiling}
 
 Cross compiling is the process that capable of creating executable code for a platform other than the one on which the compiler is running. For example, a compiler that runs on a Windows 7 PC but generates code that runs on Android smartphone is a cross compiler.
 
-In our case, in the reason of the source of hardware in Homelive is very limited, we should finish the compilation of source code under the Linux Machine. To archieve this, we should get prepared with the compile tool chain which is provided by OpenWRT. The steps are:
+In our case, in the reason of the source of hardware in Homelive is very limited, we should finish the compilation of source code under the Linux Machine. To achieve this, we should get prepared with the compile tool chain which is provided by OpenWRT. The steps are:
 
 \begin{enumerate}
-  \item Download OpenWRT package from officail site
+  \item Download OpenWRT package from official site
   \item Compile OpenWRT on Linux machine and select the packages needed for Homelive Box
   \item Generate the tool-chain of compilation
   \item Compile the TR-069 source code with OpenWRT tool chain
-  \item Transfer excutable files to Homelive
+  \item Transfer executable files to Homelive
 \end{enumerate}
 
 The disadvantage of cross compiling is that we can\'t use debug tools like \textit{GDB}.

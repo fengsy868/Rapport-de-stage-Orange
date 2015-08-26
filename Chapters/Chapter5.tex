@@ -21,7 +21,7 @@
   morekeywords={export}
 }
 %----------------------------------------------------------------------------------------
-TR-069 Client is implemented by Orange at 2008, but is a generic version for all potenial devices. The first part of my internship is to make TR-069 Client for Homelive Box. To be able to provide a generic TR-069 mudule which is easily portable on different devices, it satisfy the following points:
+TR-069 Client is implemented by Orange at 2008, but is a generic version for all potential devices. The first part of my internship is to make TR-069 Client for Homelive Box. To be able to provide a generic TR-069 module which is easily portable on different devices, it satisfy the following points:
 
 \begin{itemize}
   \item Written in ANSI C
@@ -39,7 +39,7 @@ the CWMP:
 \end{itemize}
 %----------------------------------------------------------------------------------------
 \section{Architecture of TR-069 Client}
-The TR069 Generic Agent is composed of several modules and interfaces. Some modules are generic and can be ported with no modification. Other modules are patform specific (specific libraries usage, specific device API to get/set values, ...) and must implement services declared into generic interfaces.
+The TR069 Generic Agent is composed of several modules and interfaces. Some modules are generic and can be ported with no modification. Other modules are platform specific (specific libraries usage, specific device API to get/set values, ...) and must implement services declared into generic interfaces.
 
 \begin{figure}[htbp]
 	\centering
@@ -68,7 +68,7 @@ The figure below shows the file tree of the project, TR-069 Client defines all f
 	\label{fig:tr069file}
 \end{figure}
 
-In the folder \textit{dm_taget_implementation}, different target has been defined, you can implement the APIs and Mudules for different devices, and you specifie the target to compile in compilation, like:
+In the folder \textit{dm_taget_implementation}, different target has been defined, you can implement the APIs and Modules for different devices, and you specifie the target to compile in compilation, like:
 
 \begin{lstlisting}[style=DOS][language=bash]
   $ make Target=TargetName TRACE_LEVEL=7 DEBUG=Y
@@ -84,7 +84,7 @@ database (i.e. parameters.data and parameters.data\~{} files)
 
 \section{Problems and Solutions}
 
-When ported the TR-069 Client to Homelive, we have encountered serveral problems before it can perfectly running on Homelive Box.
+When ported the TR-069 Client to Homelive, we have encountered several problems before it can perfectly run on Homelive Box.
 
 %----------------------------------------------------------------------------------------
 
@@ -96,7 +96,7 @@ The first problem is IP Address Error. At every start up of the TR-069 Client, t
     struct ifaddrs *myaddrs = NULL, *ifa = NULL;
     struct sockaddr_in *s4 = NULL;
     int  status;
-    /* buf must be big enough for an IPv6 address (e.g. 3ffe:2fa0:1010:ca22:020a:95ff:fe8a:1cf8) */
+    /* but must be big enough for an IPv6 address (e.g. 3ffe:2fa0:1010:ca22:020a:95ff:fe8a:1cf8) */
     char buf[64];
     memset((void *) buf,  0x00, sizeof(buf));
 
@@ -126,11 +126,11 @@ In general, the first Internet address should be \textit{eth0}, but in Homelive 
   $ ifconfig -a
 \end{lstlisting}
 
-The default Internet interface is "br-lan", which is specific in OpenWRT system, which is bridgeds Virtual Network Interface, used to make multiple virtual or physical network interfaces act as if they were just one network interface (quasi the opposite of VLANs).
+The default Internet interface is "br-lan", which is specific in OpenWRT system, which is bridged Virtual Network Interface, used to make multiple virtual or physical network interfaces act as if they were just one network interface (quasi the opposite of VLANs).
 
 So the solution is to change the macro definition of \textit{ETH\_INTERFACE} from \textit{``eth0''} to \textit{``br-lan''}. After the modification, the program can success finding the IP address.
 %----------------------------------------------------------------------------------------
-\subsection{STUN Initialisation}
+\subsection{STUN Initialization}
 
 When using the default data model provided, TR-069 Client can't build connection with STUN server. By looking into the log file, the problem aims to no STUN data model has been settled. The solution is to add the items which describe STUN parameters as follow:
 \begin{lstlisting}[mathescape]
@@ -146,12 +146,12 @@ When using the default data model provided, TR-069 Client can't build connection
     ManagementServer.NATDetected;BOOLEAN;0;0;1;2;1;0;;0;0;0
 \end{lstlisting}
 %----------------------------------------------------------------------------------------
-\subsection{Memory Alignement Error}
-After the modifications above, everytime when running the TR-069 Client, after 2 seconds, the program crashs and report \textit{bus error}, a bus error is a fault raised by hardware, notifying an operating system (OS) that a process is trying to access memory that the CPU cannot physically address: an invalid address for the address bus, hence the name. In modern use on most architectures these are much rarer than segmentation faults, which occur primarily due to memory access violations: problems in the logical address or permissions.
+\subsection{Memory Alignment Error}
+After the modifications above, every time when running the TR-069 Client, after 2 seconds, the program crash and report \textit{bus error}, a bus error is a fault raised by hardware, notifying an operating system (OS) that a process is trying to access memory that the CPU cannot physically address: an invalid address for the address bus, hence the name. In modern use on most architectures these are much rarer than segmentation faults, which occur primarily due to memory access violations: problems in the logical address or permissions.
 
-Beacause the TR-069 is generated by cross-compiling, some platforms (in our case MIPS64) can only read or write ints from addresses that are an even multiple of 8 bytes, otherwise they segfault. Even the ones that can handle arbitrary alignments are slower dealing with unaligned data (they have to fetch twice to get both halves), so the compiler will often pad structures to align variables. Treating structures as a lump of data that can be sent to disk or across the network thus requires extra work to ensure a consistent representation.
+Because the TR-069 is generated by cross-compiling, some platforms (in our case MIPS64) can only read or write ints from addresses that are an even multiple of 8 bytes, otherwise they segfault. Even the ones that can handle arbitrary alignments are slower dealing with unaligned data (they have to fetch twice to get both halves), so the compiler will often pad structures to align variables. Treating structures as a lump of data that can be sent to disk or across the network thus requires extra work to ensure a consistent representation.
 
-In the source code, there are \textit{struct} defined like :
+In the source code, there are \textit{struct} defined like:
 \begin{lstlisting}[mathescape]
     typedef struct _DM_ENG_Parameter
     {
@@ -184,11 +184,11 @@ In a 32bits processor, the first three elements of the structure will be aligned
 \end{figure}
 
 
-Under the Homelive architecture, it can only read data from address that is multiple of 4, so when the program tries to read value of name, the address is 0x0001 which is not an valid address, it reports the \textit{bus error}. To solve this bus error, the easiest way is to delete the attribute \textit{packed}, and then the compilator will automatique shift the address to meet the requirements.
+Under the Homelive architecture, it can only read data from address that is multiple of 4, so when the program tries to read value of name, the address is 0x0001 which is not an valid address, it reports the \textit{bus error}. To solve this bus error, the easiest way is to delete the attribute \textit{packed}, and then the compilator will automatic shift the address to meet the requirements.
 
 %----------------------------------------------------------------------------------------
 \section{RPC methods}
-The next step is to verify and implemente all the RPC methods, after verification:
+The next step is to verify and implement all the RPC methods, after verification:
 \begin{center}
   \begin{tabular}{@{} cc @{}}
     \toprule

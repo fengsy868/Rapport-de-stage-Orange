@@ -16,7 +16,7 @@ In this chapter, the Homelive Management Platform structure will be introduced. 
 	\label{fig:Platform}
 \end{figure}
 
-ACS is the server which is accessible by the support engineers of Orange. Support engineers are capable to build a connection remotely with Homelive box using protocol TR-069. The connection are build by two programs. The \textit{TR-069 server} will be running in ACS as a server side and \textit{TR-069 client} will be running in Homelive as the client side. This essentially means that control over the flow of the provisioning session is the sole responsibility of the device. Through TR-069, the high-level operations possible are:
+ACS is the server which is accessible by the support engineers of Orange. Support engineers are capable to build a connection remotely with Homelive box using protocol TR-069. The connection is build by two programs. The \textit{TR-069 server} will be running in ACS as a server side and \textit{TR-069 client} will be running in Homelive as the client side. This essentially means that control over the flow of the provisioning session is the sole responsibility of the device. Through TR-069, the high-level operations possible are:
 \begin{itemize}
   \item Service activation and reconfiguration
   \begin{itemize}
@@ -42,18 +42,18 @@ ACS is the server which is accessible by the support engineers of Orange. Suppor
 \end{itemize}
 %----------------------------------------------------------------------------------------------------------------------
 \section{Auto Configuration Server}
-The ACS of Orange BU\footnote{Business Unit} and France is named Karma\footnote{Karma is an ancient Indian word means action, work, ordeed. It also refers to the spiritual principle of cause and effect.}, the objective is to manage the Orange devices which are deploied in clients' home.
+The ACS of Orange BU\footnote{Business Unit} and France is named Karma\footnote{Karma is an ancient Indian word means action, work, ordered. It also refers to the spiritual principle of cause and effect.}, the objective is to manage the Orange devices which are deployed in clients' home.
 
-It is consisted by two PFS\footnote{PlateForm of Service}, one for the TV ecosystem( named Karma STB, only for France), the other one called Historique which is for Orange Livebox on France and for Orange Spain. The server are situated at:
+It is consisted by two PFS\footnote{PlateForm of Service}, one for the TV ecosystem( named Karma STB, only for France), the other one called Historique which is for Orange Livebox on France and for Orange Spain. The server is situated at:
 \begin{itemize}
 	\item \textbf{Karma LB} situated at the IAC Lyon,
 	\item \textbf{Karma STB} situated at the IAC Lille.
 \end{itemize}
 
-Karma provides the means to optimise Livebox or Homelive Box upgrades by targeting identified population groups, such as the customers of a new package, for example. Migrations are a more manageable size and conducted as and when. To make best use of the data held in the upgrade platform, Karma is interfaced with applications in the order-delivery process and after-sales service. This inventory function, Papyrus, provides support agents with valuable information on customers’ software upgrades and Voice over IP activation (hardware type, software version, user behaviour through the number of boots, etc.). Karma is based on international standards so that it can be used by all the Group’s business units.
+Karma provides the means to optimize Livebox or Homelive Box upgrades by targeting identified population groups, such as the customers of a new package, for example. Migrations are a more manageable size and conducted as and when. To make best use of the data held in the upgrade platform, Karma is interfaced with applications in the order-delivery process and after-sales service. This inventory function, Papyrus, provides support agents with valuable information on customers’ software upgrades and Voice over IP activation (hardware type, software version, user behavior through the number of boots, etc.). Karma is based on international standards so that it can be used by all the Group’s business units.
 
 \section{Client-Premise Equipment}
-On the client side of TR-069 is the CPE,which is Livebox and Homelive in our case. The Livebox is connected to Internet and serves as a gateway device, it is responsible to provide the connection between TR-069 server and client. Homelive box is the CPE in the strcture, the process view is as \autoref{fig:process}
+On the client side of TR-069 is the CPE, which is Livebox and Homelive in our case. The Livebox is connected to Internet and serves as a gateway device, it is responsible to provide the connection between TR-069 server and client. Homelive box is the CPE in the structure, the process view is as \autoref{fig:process}
 
 \begin{figure}[htbp]
 	\centering
@@ -62,4 +62,4 @@ On the client side of TR-069 is the CPE,which is Livebox and Homelive in our cas
 	\label{fig:process}
 \end{figure}
 
-The OpenWRT is the operating system at the base, and beyond is Luup based on Lua. The Luup also provides us the way to create the plug-in, on which we can develop the API satisfying our personnal needs. An API handle the http request is already integrated in the Luup to which we can push the HTTP Request to retrieve the Mios Data Model. Besides that is our TR-069 Client process, the TR-069 Client process will push the request at every starting of the TR-069 session in order to synchronize the Mios Data Model and Z-Wave Data Model.
+The OpenWRT is the operating system at the base, and beyond is Luup based on Lua. The Luup also provides us the way to create the plug-in, on which we can develop the API satisfying our personal needs. An API handle the http request is already integrated in the Luup to which we can push the HTTP Request to retrieve the Mios Data Model. Besides that, is our TR-069 Client process, the TR-069 Client process will push the request at every starting of the TR-069 session in order to synchronize the Mios Data Model and Z-Wave Data Model.
