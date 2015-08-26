@@ -128,7 +128,7 @@ In general, the first Internet address should be \textit{eth0}, but in Homelive 
 
 The default Internet interface is "br-lan", which is specific in OpenWRT system, which is bridgeds Virtual Network Interface, used to make multiple virtual or physical network interfaces act as if they were just one network interface (quasi the opposite of VLANs).
 
-So the solution is to change the macro definition of \textit{ETH\_INTERFACE} from \textit{eth0} to \textit{br-lan}. After the modification, the program can success finding the IP address.
+So the solution is to change the macro definition of \textit{ETH\_INTERFACE} from \textit{``eth0''} to \textit{``br-lan''}. After the modification, the program can success finding the IP address.
 %----------------------------------------------------------------------------------------
 \subsection{STUN Initialisation}
 
@@ -215,5 +215,6 @@ The next step is to verify and implemente all the RPC methods, after verificatio
 
 When we call \textit{reboot} from ACS, the TR-069 turns out only reboot the program but not the whole box. To repair this, after located the reboot function, we added one line at the end of the function to let the program call the box to reboot after 5 seconds (which is for the TR-069 to shutdown all the process).
 \begin{lstlisting}[mathescape]
-  To complete
+  /*Reboot system after 5 seconds*/
+  system("(sleep 5 && reboot) &");
 \end{lstlisting}
